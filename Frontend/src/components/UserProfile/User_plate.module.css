@@ -1,0 +1,176 @@
+.frameChild {
+    position: absolute;
+    top: 55px;
+    left: 94px;
+    border-radius: 50%;
+    width: 275px;
+    height: 275px;
+    border: 1px solid black;
+    object-fit: cover;
+  
+}
+.userName {
+    position: absolute;
+    top: 367px;
+    left: 163px;
+    font-size: 24px;
+}
+.seniorDeveloper {
+    position: absolute;
+    top: 406px;
+    left: 136px;
+    font-weight: 500;
+}
+.frameItem {
+    position: absolute;
+    top: 50px;
+    left: 23px;
+    border-radius: 50%;
+    width: 53px;
+    height: 51px;
+    object-fit: cover;
+    border: 1px solid black;
+
+}
+.reportingTo {
+    position: absolute;
+    top: 13px;
+    left: 23px;
+    font-weight: 500;
+}
+.projectManager {
+    position: absolute;
+    top: 83px;
+    left: 95px;
+    font-size: 15px;
+}
+.mrKrishnaYadav {
+    position: absolute;
+    top: 52px;
+    left: 95px;
+    font-weight: 500;
+}
+.ellipseGroup {
+    position: absolute;
+    top: 481px;
+    left: 49px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    background-color: #008080;
+    width: 370px;
+    height: 126px;
+    overflow: hidden;
+    color: #fff;
+}
+.personalDetails {
+    position: absolute;
+    top: 33px;
+    left: 51px;
+    font-size: 20px;
+    color: #1e1e1e;
+}
+.xxxxx {
+    position: absolute;
+    top: 90px;
+    left: 95px;
+}
+.usernamegmailcom {
+    position: absolute;
+    top: 138px;
+    left: 95px;
+}
+.remote {
+    position: absolute;
+    top: 186px;
+    left: 95px;
+}
+.tablerphoneIcon {
+    position: absolute;
+    top: 87px;
+    left: 48px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+}
+.icoutlineEmailIcon {
+    position: absolute;
+    top: 135px;
+    left: 51px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+}
+.mingcutelocationLineIcon {
+    position: absolute;
+    top: 183px;
+    left: 51px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+}
+.personalDetailsParent {
+    position: absolute;
+    top: 698px;
+    left: 49px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    background-color: #fff;
+    width: 370px;
+    height: 251px;
+    overflow: hidden;
+    font-size: 15px;
+}
+.jobDetails {
+    position: absolute;
+    top: 23px;
+    left: 29px;
+    color: #1e1e1e;
+}
+.seniorDeveloper1 {
+    position: absolute;
+    top: 106px;
+    left: 30px;
+    font-size: 15px;
+}
+.techwebDeveloper {
+    position: absolute;
+    top: 183px;
+    left: 30px;
+    font-size: 15px;
+}
+.jobTitle {
+    position: absolute;
+    top: 78px;
+    left: 29px;
+}
+.department {
+    position: absolute;
+    top: 153px;
+    left: 29px;
+}
+.jobDetailsParent {
+    position: absolute;
+    top: 1000px;
+    left: 49px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    background-color: #fff;
+    width: 370px;
+    height: 251px;
+    overflow: hidden;
+}
+.ellipseParent {
+    width: 25%;
+    position: relative;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    background-color: #fff;
+    height: 1302px;
+    overflow: hidden;
+    text-align: left;
+    font-size: 20px;
+    color: #000;
+    font-family: Inter;
+    margin-left: 30px;
+}
+

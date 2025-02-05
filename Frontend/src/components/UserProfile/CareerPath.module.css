@@ -1,0 +1,153 @@
+.skillsAndCompetencies {
+    position: absolute;
+    top: 44px;
+    left: 33px;
+}
+.skillsAndCompetenciesWrapper {
+    position: absolute;
+    top: 576px;
+    left: 17px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    background-color: #fff;
+    width: 360px;
+    height: 446px;
+    overflow: hidden;
+    font-size: 24px;
+}
+.creativeDirector {
+    position: absolute;
+    top: 10px;
+    left: 13px;
+    font-weight: 500;
+}
+.currentRole {
+    position: absolute;
+    top: 4px;
+    left: 14px;
+}
+.currentRoleWrapper {
+    position: absolute;
+    top: 79px;
+    left: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    background-color: #008080;
+    width: 118px;
+    height: 26px;
+    overflow: hidden;
+    color: #fff;
+}
+.creativeDirectorParent {
+    position: absolute;
+    top: 122px;
+    left: 133px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    background-color: #fff;
+    width: 208px;
+    height: 119px;
+    overflow: hidden;
+}
+.years {
+    position: absolute;
+    top: 35px;
+    left: 13px;
+}
+.employeUCan {
+    position: absolute;
+    top: 69px;
+    left: 13px;
+    font-size: 13px;
+    white-space: pre-wrap;
+}
+.frameChild {
+    position: absolute;
+    top: 92px;
+    left: 23px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+}
+.frameItem {
+    position: absolute;
+    top: 92px;
+    left: 13px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+}
+.avpMarketingParent {
+    position: absolute;
+    top: 382px;
+    left: 133px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    background-color: #fff;
+    width: 208px;
+    height: 119px;
+    overflow: hidden;
+}
+.level2 {
+    position: absolute;
+    top: 4px;
+    left: 9px;
+    font-weight: 500;
+    display: inline-block;
+    width: 60px;
+}
+.level2Wrapper {
+    position: absolute;
+    top: 169px;
+    left: 37px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    background-color: #fff;
+    width: 69px;
+    height: 26px;
+    overflow: hidden;
+}
+.level3Wrapper {
+    position: absolute;
+    top: 429px;
+    left: 37px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    background-color: #fff;
+    width: 69px;
+    height: 26px;
+    overflow: hidden;
+}
+.frameParent {
+    position: absolute;
+    top: 69px;
+    left: 26px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    background-color: #f5faff;
+    width: 394px;
+    height: 1075px;
+    overflow: hidden;
+}
+.careerPath1 {
+    position: absolute;
+    top: 16px;
+    left: 26px;
+    font-size: 24px;
+}
+.careerPath {
+    width: 24%;
+    position: relative;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    background-color: #fff;
+    height: 1180px;
+    overflow: hidden;
+    text-align: left;
+    font-size: 15px;
+    color: #008080;
+    font-family: Inter;
+}
+

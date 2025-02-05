@@ -1,0 +1,15 @@
+.home {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.home h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}

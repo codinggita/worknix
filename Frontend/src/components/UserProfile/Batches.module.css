@@ -1,0 +1,71 @@
+.batches1 {
+    position: absolute;
+    top: 16px;
+    left: 87px;
+    font-size: 20px;
+    color: #008080;
+}
+.materialSymbolsawardStarIcon {
+    position: absolute;
+    top: 17px;
+    left: 47px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+}
+.basilawardOutlineIcon {
+    position: absolute;
+    top: 77px;
+    left: 87px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+}
+.basilawardOutlineIcon1 {
+    position: absolute;
+    top: 138px;
+    left: 87px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+}
+.basilawardOutlineIcon2 {
+    position: absolute;
+    top: 199px;
+    left: 90px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+}
+.bestEmployeOf {
+    position: absolute;
+    top: 79px;
+    left: 127px;
+    font-weight: 500;
+}
+.topPerformance {
+    position: absolute;
+    top: 140px;
+    left: 127px;
+    font-weight: 500;
+}
+.leadershipImpact {
+    position: absolute;
+    top: 200px;
+    left: 127px;
+    font-weight: 500;
+}
+.batches {
+    width: 28%;
+    position: relative;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    background-color: #fff;
+    height: 276px;
+    overflow: hidden;
+    text-align: left;
+    font-size: 15px;
+    color: #000;
+    font-family: Inter;
+}
+

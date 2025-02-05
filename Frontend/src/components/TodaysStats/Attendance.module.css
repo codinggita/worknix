@@ -1,0 +1,859 @@
+.materialSymbolsstar {
+    position: absolute;
+    top: 34px;
+    left: 124px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+}
+.frameChild {
+    position: absolute;
+    top: 89px;
+    left: 30px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameItem {
+    position: absolute;
+    top: 201px;
+    left: 30px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameInner {
+    position: absolute;
+    top: 144px;
+    left: 30px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.january2025 {
+    position: absolute;
+    top: 25px;
+    left: 83px;
+    font-size: 24px;
+}
+.mo {
+    position: absolute;
+    top: 19px;
+    left: 20px;
+}
+.mo1 {
+    position: absolute;
+    top: 19px;
+    left: 527px;
+}
+.tu {
+    position: absolute;
+    top: 19px;
+    left: 93px;
+}
+.tu1 {
+    position: absolute;
+    top: 19px;
+    left: 600px;
+}
+.we {
+    position: absolute;
+    top: 19px;
+    left: 166px;
+}
+.we1 {
+    position: absolute;
+    top: 19px;
+    left: 668px;
+}
+.sa {
+    position: absolute;
+    top: 19px;
+    left: 385px;
+}
+.sa1 {
+    position: absolute;
+    top: 19px;
+    left: 875px;
+}
+.su {
+    position: absolute;
+    top: 19px;
+    left: 458px;
+}
+.su1 {
+    position: absolute;
+    top: 19px;
+    left: 944px;
+}
+.fr {
+    position: absolute;
+    top: 19px;
+    left: 312px;
+}
+.fr1 {
+    position: absolute;
+    top: 19px;
+    left: 810px;
+}
+.th {
+    position: absolute;
+    top: 19px;
+    left: 239px;
+}
+.th1 {
+    position: absolute;
+    top: 19px;
+    left: 741px;
+}
+.moParent {
+    position: absolute;
+    top: 3px;
+    left: 513px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseDiv {
+    position: absolute;
+    top: 8px;
+    left: 656px;
+    border-radius: 50%;
+    background-color: #ef9ce4;
+    width: 40px;
+    height: 40px;
+}
+.frameChild1 {
+    position: absolute;
+    top: 9px;
+    left: 83px;
+    border-radius: 50%;
+    background-color: #e5e883;
+    width: 40px;
+    height: 40px;
+}
+.frameChild2 {
+    position: absolute;
+    top: 8px;
+    left: 447px;
+    border-radius: 50%;
+    background-color: #83e88f;
+    width: 40px;
+    height: 40px;
+}
+.frameChild3 {
+    position: absolute;
+    top: 8px;
+    left: 933px;
+    border-radius: 50%;
+    background-color: #83e88f;
+    width: 40px;
+    height: 40px;
+}
+.ellipseParent {
+    position: absolute;
+    top: 79px;
+    left: 513px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.frameChild4 {
+    position: absolute;
+    top: 8px;
+    left: 229px;
+    border-radius: 50%;
+    background-color: #ef9ce4;
+    width: 40px;
+    height: 40px;
+}
+.frameChild6 {
+    position: absolute;
+    top: 8px;
+    left: 864px;
+    border-radius: 50%;
+    background-color: #ee9293;
+    width: 40px;
+    height: 40px;
+}
+.ellipseGroup {
+    position: absolute;
+    top: 134px;
+    left: 513px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.frameChild8 {
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    border-radius: 50%;
+    background-color: #ee9293;
+    width: 40px;
+    height: 40px;
+}
+.frameChild9 {
+    position: absolute;
+    top: 6px;
+    left: 375px;
+    border-radius: 50%;
+    background-color: #e5e883;
+    width: 40px;
+    height: 40px;
+}
+.ellipseContainer {
+    position: absolute;
+    top: 189px;
+    left: 513px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.frameChild12 {
+    position: absolute;
+    top: 265px;
+    left: 1115px;
+    border-radius: 50%;
+    background-color: #e5e883;
+    width: 20px;
+    height: 20px;
+}
+.frameChild13 {
+    position: absolute;
+    top: 264px;
+    left: 1190px;
+    border-radius: 50%;
+    background-color: #83e88f;
+    width: 20px;
+    height: 20px;
+}
+.frameChild14 {
+    position: absolute;
+    top: 264px;
+    left: 1284px;
+    border-radius: 50%;
+    background-color: #ef9ce4;
+    width: 20px;
+    height: 20px;
+}
+.frameChild15 {
+    position: absolute;
+    top: 267px;
+    left: 1399px;
+    border-radius: 50%;
+    background-color: #ee9293;
+    width: 20px;
+    height: 20px;
+}
+.zubinRathore {
+    position: absolute;
+    top: 157px;
+    left: 83px;
+    font-weight: 500;
+}
+.mrjohn {
+    position: absolute;
+    top: 210px;
+    left: 83px;
+    font-weight: 500;
+}
+.wfh {
+    position: absolute;
+    top: 267px;
+    left: 1144px;
+    font-weight: 500;
+}
+.holiday {
+    position: absolute;
+    top: 264px;
+    left: 1221px;
+    font-weight: 500;
+}
+.paidLeave {
+    position: absolute;
+    top: 268px;
+    left: 1313px;
+    font-weight: 500;
+}
+.onLeave {
+    position: absolute;
+    top: 268px;
+    left: 1427px;
+    font-weight: 500;
+}
+.mairaShaik {
+    position: absolute;
+    top: 99px;
+    left: 83px;
+    font-weight: 500;
+}
+.weuiarrowFilledIcon {
+    position: absolute;
+    top: 29.13px;
+    left: 46.73px;
+    width: 12.9px;
+    height: 24.4px;
+    overflow: hidden;
+    object-fit: contain;
+}
+.weuiarrowFilledIcon1 {
+    position: absolute;
+    top: 28.06px;
+    left: 270.13px;
+    width: 12.6px;
+    height: 24.3px;
+    overflow: hidden;
+    object-fit: contain;
+}
+.ellipseIcon {
+    position: absolute;
+    top: 44px;
+    left: 27px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild16 {
+    position: absolute;
+    top: 685px;
+    left: 25px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild17 {
+    position: absolute;
+    top: 367px;
+    left: 26px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild18 {
+    position: absolute;
+    top: 1008px;
+    left: 24px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild19 {
+    position: absolute;
+    top: 202px;
+    left: 27px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild20 {
+    position: absolute;
+    top: 843px;
+    left: 25px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild21 {
+    position: absolute;
+    top: 525px;
+    left: 26px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild22 {
+    position: absolute;
+    top: 1166px;
+    left: 24px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild23 {
+    position: absolute;
+    top: 156px;
+    left: 27px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild24 {
+    position: absolute;
+    top: 797px;
+    left: 25px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild25 {
+    position: absolute;
+    top: 479px;
+    left: 26px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild26 {
+    position: absolute;
+    top: 1120px;
+    left: 24px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild27 {
+    position: absolute;
+    top: 314px;
+    left: 27px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild28 {
+    position: absolute;
+    top: 955px;
+    left: 25px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild29 {
+    position: absolute;
+    top: 637px;
+    left: 26px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild30 {
+    position: absolute;
+    top: 99px;
+    left: 27px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild31 {
+    position: absolute;
+    top: 740px;
+    left: 25px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild32 {
+    position: absolute;
+    top: 422px;
+    left: 26px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild33 {
+    position: absolute;
+    top: 1063px;
+    left: 24px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild34 {
+    position: absolute;
+    top: 257px;
+    left: 27px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild35 {
+    position: absolute;
+    top: 898px;
+    left: 25px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameChild36 {
+    position: absolute;
+    top: 580px;
+    left: 26px;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.frameDiv {
+    position: absolute;
+    top: 34px;
+    left: 510px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent1 {
+    position: absolute;
+    top: 675px;
+    left: 508px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent2 {
+    position: absolute;
+    top: 357px;
+    left: 509px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent3 {
+    position: absolute;
+    top: 998px;
+    left: 507px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent4 {
+    position: absolute;
+    top: 192px;
+    left: 510px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent5 {
+    position: absolute;
+    top: 833px;
+    left: 508px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent6 {
+    position: absolute;
+    top: 515px;
+    left: 509px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent7 {
+    position: absolute;
+    top: 1156px;
+    left: 507px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent8 {
+    position: absolute;
+    top: 89px;
+    left: 510px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent9 {
+    position: absolute;
+    top: 730px;
+    left: 508px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent10 {
+    position: absolute;
+    top: 412px;
+    left: 509px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent11 {
+    position: absolute;
+    top: 1053px;
+    left: 507px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent12 {
+    position: absolute;
+    top: 247px;
+    left: 510px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent13 {
+    position: absolute;
+    top: 888px;
+    left: 508px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent14 {
+    position: absolute;
+    top: 570px;
+    left: 509px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent15 {
+    position: absolute;
+    top: 1211px;
+    left: 507px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent16 {
+    position: absolute;
+    top: 144px;
+    left: 510px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent17 {
+    position: absolute;
+    top: 785px;
+    left: 508px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent18 {
+    position: absolute;
+    top: 467px;
+    left: 509px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent19 {
+    position: absolute;
+    top: 1108px;
+    left: 507px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent20 {
+    position: absolute;
+    top: 302px;
+    left: 510px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent21 {
+    position: absolute;
+    top: 943px;
+    left: 508px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.ellipseParent22 {
+    position: absolute;
+    top: 625px;
+    left: 509px;
+    background-color: #fff;
+    width: 1001px;
+    height: 55px;
+    overflow: hidden;
+}
+.zubinRathore1 {
+    position: absolute;
+    top: 112px;
+    left: 80px;
+    font-weight: 500;
+}
+.zubinRathore2 {
+    position: absolute;
+    top: 753px;
+    left: 78px;
+    font-weight: 500;
+}
+.zubinRathore3 {
+    position: absolute;
+    top: 435px;
+    left: 79px;
+    font-weight: 500;
+}
+.zubinRathore4 {
+    position: absolute;
+    top: 1076px;
+    left: 77px;
+    font-weight: 500;
+}
+.zubinRathore5 {
+    position: absolute;
+    top: 270px;
+    left: 80px;
+    font-weight: 500;
+}
+.zubinRathore6 {
+    position: absolute;
+    top: 911px;
+    left: 78px;
+    font-weight: 500;
+}
+.zubinRathore7 {
+    position: absolute;
+    top: 593px;
+    left: 79px;
+    font-weight: 500;
+}
+.mrjohn1 {
+    position: absolute;
+    top: 165px;
+    left: 80px;
+    font-weight: 500;
+}
+.mrjohn2 {
+    position: absolute;
+    top: 806px;
+    left: 78px;
+    font-weight: 500;
+}
+.mrjohn3 {
+    position: absolute;
+    top: 488px;
+    left: 79px;
+    font-weight: 500;
+}
+.mrjohn4 {
+    position: absolute;
+    top: 1129px;
+    left: 77px;
+    font-weight: 500;
+}
+.mrjohn5 {
+    position: absolute;
+    top: 323px;
+    left: 80px;
+    font-weight: 500;
+}
+.mrjohn6 {
+    position: absolute;
+    top: 964px;
+    left: 78px;
+    font-weight: 500;
+}
+.mrjohn7 {
+    position: absolute;
+    top: 646px;
+    left: 79px;
+    font-weight: 500;
+}
+.mairaShaik1 {
+    position: absolute;
+    top: 54px;
+    left: 80px;
+    font-weight: 500;
+}
+.mairaShaik2 {
+    position: absolute;
+    top: 695px;
+    left: 78px;
+    font-weight: 500;
+}
+.mairaShaik3 {
+    position: absolute;
+    top: 377px;
+    left: 79px;
+    font-weight: 500;
+}
+.mairaShaik4 {
+    position: absolute;
+    top: 1018px;
+    left: 77px;
+    font-weight: 500;
+}
+.mairaShaik5 {
+    position: absolute;
+    top: 212px;
+    left: 80px;
+    font-weight: 500;
+}
+.mairaShaik6 {
+    position: absolute;
+    top: 853px;
+    left: 78px;
+    font-weight: 500;
+}
+.mairaShaik7 {
+    position: absolute;
+    top: 535px;
+    left: 79px;
+    font-weight: 500;
+}
+.mairaShaik8 {
+    position: absolute;
+    top: 1176px;
+    left: 77px;
+    font-weight: 500;
+}
+.vectorParent {
+    position: absolute;
+    top: 52px;
+    left: 5px;
+    background-color: #fff;
+    width: 1494px;
+    height: 194px;
+    overflow-y: auto;
+}
+.materialSymbolsstarParent {
+    width: 100%;
+    position: relative;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    background-color: #fff;
+    height: 296px;
+    overflow-x: auto;
+    text-align: left;
+    font-size: 15px;
+    color: #008080;
+    font-family: Inter;
+}
+
+

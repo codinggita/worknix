@@ -1,0 +1,125 @@
+.performanceReview {
+    position: absolute;
+    top: 43px;
+    left: 30px;
+    font-size: 20px;
+    color: #008080;
+}
+.performanceChild {
+    position: absolute;
+    top: 110px;
+    left: 30px;
+    width: 460px;
+    height: 1px;
+    object-fit: contain;
+}
+.performanceItem {
+    position: absolute;
+    top: 218px;
+    left: 30px;
+    width: 460px;
+    height: 1px;
+    object-fit: contain;
+}
+.performanceInner {
+    position: absolute;
+    top: 133.5px;
+    left: 254.5px;
+    border-right: 1px solid #008080;
+    box-sizing: border-box;
+    width: 1px;
+    height: 61px;
+}
+.performanceRating {
+    position: absolute;
+    top: 128px;
+    left: 30px;
+}
+.meetingExpectation {
+    position: absolute;
+    top: 162px;
+    left: 58px;
+    font-weight: 500;
+}
+.eligibleForPromotion {
+    position: absolute;
+    top: 244px;
+    left: 62px;
+    font-weight: 500;
+}
+.exceedsExpectation {
+    position: absolute;
+    top: 164px;
+    left: 294px;
+    font-weight: 500;
+    display: inline-block;
+    width: 196px;
+}
+.potentialRating {
+    position: absolute;
+    top: 132px;
+    left: 274px;
+}
+.increment {
+    position: absolute;
+    top: 4px;
+    left: 7px;
+}
+.incrementWrapper {
+    position: absolute;
+    top: 240px;
+    left: 235px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    background-color: #008080;
+    width: 118px;
+    height: 26px;
+    overflow: hidden;
+    color: #fff;
+}
+.vectorIcon {
+    position: absolute;
+    height: 6.53%;
+    width: 3.91%;
+    top: 55.67%;
+    right: 90.22%;
+    bottom: 37.8%;
+    left: 5.87%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+}
+.vectorIcon1 {
+    position: absolute;
+    height: 6.53%;
+    width: 3.91%;
+    top: 55.33%;
+    right: 43.25%;
+    bottom: 38.14%;
+    left: 52.84%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 100%;
+}
+.bitcoinIconsverifyFilled {
+    position: absolute;
+    top: 240px;
+    left: 28px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+}
+.performance {
+    width: 28%;
+    position: relative;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    background-color: #fff;
+    height: 291px;
+    overflow: hidden;
+    text-align: left;
+    font-size: 15px;
+    color: #000;
+    font-family: Inter;
+}
+
