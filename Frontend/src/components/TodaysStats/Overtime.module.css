@@ -1,0 +1,156 @@
+.frameChild {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+.mrjohnSen {
+    position: absolute;
+    top: 16px;
+    left: 60px;
+    font-weight: 500;
+}
+.date {
+    position: absolute;
+    top: 53px;
+    left: 16px;
+    font-weight: 500;
+}
+.reason {
+    position: absolute;
+    top: 90px;
+    left: 16px;
+    font-weight: 500;
+}
+.approve {
+    position: absolute;
+    top: 132px;
+    left: 156px;
+    font-weight: 500;
+}
+.reject {
+    position: absolute;
+    top: 132px;
+    left: 226px;
+    font-weight: 500;
+}
+.salesManger {
+    position: absolute;
+    top: 34px;
+    left: 60px;
+    font-size: 11px;
+}
+.stJunemonday600Pm {
+    position: absolute;
+    top: 71px;
+    left: 16px;
+    font-size: 11px;
+}
+.workOverload {
+    position: absolute;
+    top: 108px;
+    left: 16px;
+    font-size: 11px;
+}
+.ellipseParent {
+    position: absolute;
+    top: 68px;
+    left: 18px;
+    background-color: #008080;
+    width: 279px;
+    height: 156px;
+    overflow: hidden;
+}
+.reject1 {
+    position: absolute;
+    top: 133px;
+    left: 225px;
+    font-weight: 500;
+}
+.approve1 {
+    position: absolute;
+    top: 133px;
+    left: 150px;
+    font-weight: 500;
+}
+.frameInner {
+    position: absolute;
+    top: 131px;
+    left: 218px;
+    width: 0.2px;
+    height: 21.1px;
+    object-fit: contain;
+}
+.ellipseGroup {
+    position: absolute;
+    top: 68px;
+    left: 327px;
+    background-color: #008080;
+    width: 279px;
+    height: 156px;
+    overflow: hidden;
+}
+.ellipseContainer {
+    position: absolute;
+    top: 68px;
+    left: 636px;
+    background-color: #008080;
+    width: 279px;
+    height: 156px;
+    overflow: hidden;
+}
+.overtimeChild {
+    position: absolute;
+    top: 200px;
+    left: 238.11px;
+    width: 0.2px;
+    height: 21.1px;
+    object-fit: contain;
+}
+.approve3 {
+    position: absolute;
+    top: 131px;
+    left: 150px;
+    font-weight: 500;
+}
+.frameChild2 {
+    position: absolute;
+    top: 131px;
+    left: 213px;
+    width: 0.2px;
+    height: 21.1px;
+    object-fit: contain;
+}
+.frameDiv {
+    position: absolute;
+    top: 68px;
+    left: 945px;
+    background-color: #008080;
+    width: 277px;
+    height: 156px;
+    overflow: hidden;
+}
+.overtimeRequst {
+    position: absolute;
+    top: 12px;
+    left: 18px;
+    font-size: 32px;
+    color: #000;
+}
+.overtime {
+    width: 100%;
+    position: relative;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    background-color: #fff;
+    height: 260px;
+    overflow-x: auto;
+    text-align: left;
+    font-size: 15px;
+    color: #fff;
+    font-family: Inter;
+}
+

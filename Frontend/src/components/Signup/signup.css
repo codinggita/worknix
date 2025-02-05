@@ -1,0 +1,11 @@
+.signup {
+  display: flex;
+  flex-direction: row; /* Default value, makes the layout horizontal */
+  height: 100vh; /* Optional: ensures the container takes full viewport height */
+  margin: 0; /* Optional: removes any margin if set globally */
+  padding: 0; /* Optional: removes padding if set globally */
+}
+
+.Lefts, .Rightsidel {
+  flex: 1; /* Makes each component take up equal space */
+}

@@ -1,0 +1,80 @@
+/* Layout for the User Profile */
+.user-profile {
+    display: grid;
+    grid-template-columns: 80px 1fr; /* Sidebar + Main Content */
+    grid-template-rows: auto 1fr auto; /* Header, Main Content, Footer */
+    height: 100vh;
+    background-color: #f7f9fc; /* Light background */
+  }
+  
+  /* Sidebar Navigation */
+  .user-profile .navigationBar {
+    grid-column: 1 / 2;
+    grid-row: 1 / 4;
+    background-color: #008080; /* Teal background for the sidebar */
+    color: white;
+  }
+  
+  /* Main Content Area */
+  .main-content {
+    display: grid;
+    grid-template-areas:
+      "user-plate user-plate"
+      "performance-review goals"
+      "batches career-path";
+    grid-template-columns: 2fr 1fr; /* Wider User Section */
+    gap: 20px;
+    padding: 20px;
+    background-color: white;
+    overflow-y: auto;
+  }
+  
+  .user-plate {
+    grid-area: user-plate;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .performance-review {
+    grid-area: performance-review;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .goals {
+    grid-area: goals;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .batches {
+    grid-area: batches;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .career-path {
+    grid-area: career-path;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  /* Footer Styling */
+  .footer {
+    grid-column: 1 / -1; /* Span both columns */
+    background-color: #008080;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+  }
+  
