@@ -1,4 +1,4 @@
-.frameChild {
+/* .frameChild {
     position: absolute;
     top: 12px;
     left: 16px;
@@ -153,4 +153,87 @@
     color: #fff;
     font-family: Inter;
 }
+ */
 
+
+
+ .overtime {
+    width: 100%;
+    position: relative;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    background-color: #fff;
+    height: auto;
+    padding: 20px;
+    overflow-x: auto;
+    text-align: left;
+    font-size: 15px;
+    color: #fff;
+    font-family: Inter;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.overtimeRequst {
+    font-size: 32px;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.overtimeCard {
+    background-color: #008080;
+    border-radius: 10px;
+    padding: 16px;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+
+.position {
+    font-size: 12px;
+    color: #ddd;
+}
+
+.details {
+    font-size: 13px;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+button {
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.approve {
+    background-color: green;
+    color: white;
+}
+
+.reject {
+    background-color: red;
+    color: white;
+}

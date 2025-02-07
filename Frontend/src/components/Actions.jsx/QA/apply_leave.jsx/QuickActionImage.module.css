@@ -1,0 +1,10 @@
+.quickActionIcon {
+    width: 100%;
+    position: relative;
+    border-radius: 20px;
+    max-width: 100%;
+    overflow: hidden;
+    height: 405.8px;
+    object-fit: contain;
+}
+
