@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Box, TextField, Button, Typography } from '@mui/material';
+import axios from 'axios'; // Import axios for API calls
 
 const AddPost = ({ onClose, onAddPost }) => {
   const [description, setDescription] = useState('');
   const [media, setMedia] = useState(null);
   const [mediaPreview, setMediaPreview] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // Loading state
 
   const handleMediaUpload = (event) => {
     const file = event.target.files[0];
@@ -14,19 +16,32 @@ const AddPost = ({ onClose, onAddPost }) => {
     }
   };
 
-  const handleAddPost = () => {
-    if (description && media) {
-      const newPost = {
-        id: Date.now(),
-        description,
-        image: mediaPreview,
-        time: 'Just now',
-        user: 'You',
-        avatar: '/static/avatar.png',
-        likes: '0',
-      };
-      onAddPost(newPost);
-      onClose();
+  const handleAddPost = async () => {
+    if (!description || !media) return;
+
+    setIsLoading(true); // Start loading
+
+    const formData = new FormData();
+    formData.append('description', description);
+    formData.append('media', media);
+
+    try {
+      // Replace `/api/posts` with your actual backend endpoint
+      const response = await axios.post('/api/posts', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      // Assuming the backend responds with the newly created post
+      const newPost = response.data;
+      onAddPost(newPost); // Update posts in the frontend
+      onClose(); // Close the modal
+    } catch (error) {
+      console.error('Error uploading post:', error);
+      alert('Failed to upload post. Please try again.');
+    } finally {
+      setIsLoading(false); // Stop loading
     }
   };
 
@@ -99,16 +114,16 @@ const AddPost = ({ onClose, onAddPost }) => {
         )}
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button variant="outlined" onClick={onClose}>
+          <Button variant="outlined" onClick={onClose} disabled={isLoading}>
             Cancel
           </Button>
           <Button
             variant="contained"
             color="primary"
             onClick={handleAddPost}
-            disabled={!description || !media}
+            disabled={!description || !media || isLoading}
           >
-            Add Post
+            {isLoading ? 'Uploading...' : 'Add Post'}
           </Button>
         </Box>
       </Box>
