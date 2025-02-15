@@ -1,5 +1,5 @@
 import React from 'react';
-import CommunityUI from './CommunityUI';
+import CommunityUI from './CommunityUI/CommunityUI';
 import NavigationBar from '../Common/NavigationBar';
 import Searchbar from '../Common/Searchbar';
 
@@ -32,26 +32,30 @@ const Community = () => {
       <div
         style={{
           flex: 1,
-          marginLeft: '80px',
+          marginLeft: '250px', // Adjust to match the NavigationBar width
           display: 'flex',
           flexDirection: 'column',
           backgroundColor: '#F5FAFF', // Same background color
+          justifyContent: 'center', // Center vertically
+          alignItems: 'center', // Center horizontally
         }}
       >
         {/* Top Searchbar Box */}
         <div
           style={{
+            width: '100%',
+            maxWidth: '800px', // Restrict max width for the search bar
             display: 'flex',
-            justifyContent: 'center', // Center search bar
+            justifyContent: 'center',
             alignItems: 'center',
             padding: '16px',
             border: '1px solid #ccc',
             borderRadius: '8px',
-            margin: '16px', // Add space around the box
+            marginBottom: '24px', // Space between search bar and main content
             backgroundColor: '#fff', // White box background
             boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', // Add slight shadow for box
             position: 'sticky',
-            top: 0,
+            top: '16px', // Stick to the top when scrolling
             zIndex: 10,
           }}
         >
@@ -59,7 +63,17 @@ const Community = () => {
         </div>
 
         {/* Community UI */}
-        <div style={{ flex: 1, padding: '24px', overflowY: 'auto' }}>
+        <div
+          style={{
+            width: '100%',
+            maxWidth: '800px', // Restrict max width for main content
+            padding: '24px',
+            backgroundColor: '#fff', // Add white background for contrast
+            borderRadius: '16px', // Rounded corners for CommunityUI
+            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', // Add shadow for better appearance
+            overflowY: 'auto', // Enable scrolling for long content
+          }}
+        >
           <CommunityUI />
         </div>
       </div>
@@ -68,3 +82,4 @@ const Community = () => {
 };
 
 export default Community;
+

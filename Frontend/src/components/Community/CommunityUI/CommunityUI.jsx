@@ -1,7 +1,7 @@
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent } from "./CardContent";
+import { Button } from "./Button Component";
+import { Textarea } from "./Textarea Component";
 import { Smile, ImageIcon, VideoIcon, MoreHorizontal } from "lucide-react";
 
 const CommunityUI = () => {
