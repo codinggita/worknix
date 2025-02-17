@@ -3,12 +3,17 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-require("dotenv").config(); // Import and configure dotenv
+const passport = require("passport");
+const { OAuth2Client } = require("google-auth-library");
+const GitHubStrategy = require("passport-github").Strategy;
+const LinkedInStrategy = require("passport-linkedin-oauth2").Strategy;
+require("dotenv").config();
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(passport.initialize());
 
 // MongoDB connection
 mongoose
@@ -23,24 +28,121 @@ mongoose
 // Define Schema and Model
 const newSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String },
   username: { type: String, required: true },
-  mobile: { type: String, required: true },
+  mobile: { type: String },
+  provider: { type: String, default: "local" }, // Added provider field to handle social logins
 });
 
 const collection = mongoose.model("Login_Signup", newSchema);
 
-// JWT Secret Key (ensure it's loaded from environment)
+// JWT Secret Key
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
   console.error("JWT_SECRET is not defined in your .env file!");
-  process.exit(1); // Exit if the JWT_SECRET is missing
+  process.exit(1);
 }
 
 // Routes
 app.get("/", cors(), (req, res) => {
   res.send("Welcome to the API!");
 });
+
+// Google OAuth Configuration
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+// Google OAuth Route
+app.post("/auth/google", async (req, res) => {
+  const { token } = req.body;
+
+  try {
+    const ticket = await googleClient.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const { email, name } = ticket.getPayload();
+    let user = await collection.findOne({ email });
+
+    if (!user) {
+      user = new collection({ email, username: name, provider: "google" });
+      await user.save();
+    }
+
+    const jwtToken = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
+    res.status(200).json({ token: jwtToken, user });
+  } catch (error) {
+    console.error("Google OAuth Error:", error);
+    res.status(400).json({ message: "Google OAuth failed" });
+  }
+});
+
+// GitHub OAuth Configuration
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      callbackURL: "http://localhost:8000/auth/github/callback",
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      const email = profile.emails?.[0]?.value || profile.username + "@github.com";
+      let user = await collection.findOne({ email });
+
+      if (!user) {
+        user = new collection({ email, username: profile.username, provider: "github" });
+        await user.save();
+      }
+
+      done(null, user);
+    }
+  )
+);
+
+app.get("/auth/github", passport.authenticate("github", { scope: ["user:email"] }));
+
+app.get(
+  "/auth/github/callback",
+  passport.authenticate("github", { failureRedirect: "/" }),
+  (req, res) => {
+    const jwtToken = jwt.sign({ id: req.user._id }, JWT_SECRET, { expiresIn: "1h" });
+    res.redirect(`http://localhost:3000/home?token=${jwtToken}`);
+  }
+);
+
+// LinkedIn OAuth Configuration
+passport.use(
+  new LinkedInStrategy(
+    {
+      clientID: process.env.LINKEDIN_CLIENT_ID,
+      clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
+      callbackURL: "http://localhost:8000/auth/linkedin/callback",
+      scope: ["r_emailaddress", "r_liteprofile"],
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      const email = profile.emails?.[0]?.value;
+      let user = await collection.findOne({ email });
+
+      if (!user) {
+        user = new collection({ email, username: profile.displayName, provider: "linkedin" });
+        await user.save();
+      }
+
+      done(null, user);
+    }
+  )
+);
+
+app.get("/auth/linkedin", passport.authenticate("linkedin"));
+
+app.get(
+  "/auth/linkedin/callback",
+  passport.authenticate("linkedin", { failureRedirect: "/" }),
+  (req, res) => {
+    const jwtToken = jwt.sign({ id: req.user._id }, JWT_SECRET, { expiresIn: "1h" });
+    res.redirect(`http://localhost:3000/home?token=${jwtToken}`);
+  }
+);
 
 // Signup Route
 app.post("/signup", async (req, res) => {
@@ -52,7 +154,6 @@ app.post("/signup", async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // Hash password before storing
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new collection({
@@ -85,7 +186,6 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid password" });
     }
 
-    // Generate JWT token
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
     res.status(200).json({ token, user: { username: user.username, mobile: user.mobile } });
   } catch (error) {
@@ -94,27 +194,8 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Middleware to Authenticate Token
-const authenticateToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
-  if (!token) return res.status(401).json({ message: "Access Denied" });
-
-  try {
-    const verified = jwt.verify(token, JWT_SECRET);
-    req.user = verified; // Save user details from token to request object
-    next();
-  } catch (err) {
-    console.error("Invalid Token Error:", err);
-    res.status(403).json({ message: "Invalid Token" });
-  }
-};
-
-// Example Protected Route
-app.get("/protected", authenticateToken, (req, res) => {
-  res.json({ message: "This is a protected route", user: req.user });
-});
-
 // Start Server
 app.listen(8000, () => {
   console.log("Server running on port 8000");
 });
+
