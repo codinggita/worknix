@@ -1,55 +1,64 @@
 .navigationBar {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #008080; /* Teal background */
-    height: 100vh;
-    width: 80px; /* Fixed width for sidebar */
-    padding: 20px 0;
-  }
-  
-  .topSection {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .bottomSection {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  /* Nav item styles */
-  .navItem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px 0; /* Spacing between items */
-    color: white; /* Text color */
-    text-decoration: none;
-    transition: transform 0.2s ease, color 0.2s ease;
-  }
-  
-  .navItem:hover {
-    transform: scale(1.1); /* Hover zoom effect */
-  }
-  
-  .active {
-    transform: scale(1.1); /* Keep zoom effect on active */
-    color: white;
-  }
-  
-  .icon {
-    font-size: 32px; /* Icon size */
-    margin-bottom: 5px; /* Space between icon and label */
-    color: white; /* Icon color */
-  }
-  
-  .label {
-    font-size: 12px; /* Label font size */
-    color: white; /* Label text color */
-    text-align: center;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #008080; /* Teal background */
+  height: 100vh;
+  width: 80px; /* Fixed width for sidebar */
+  padding: 20px 0;
+}
+
+.topSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bottomSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0; /* Spacing between items */
+  color: white; /* Text color */
+  text-decoration: none;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.navItem:hover {
+  transform: scale(1.1); /* Hover zoom effect */
+}
+
+.active {
+  transform: scale(1.1); /* Keep zoom effect on active */
+  color: white;
+}
+
+.icon {
+  font-size: 32px; /* Icon size */
+  margin-bottom: 5px; /* Space between icon and label */
+  color: white; /* Icon color */
+}
+
+.label {
+  font-size: 12px; /* Label font size */
+  color: white; /* Label text color */
+  text-align: center;
+}
+
+/* Remove background and styling for logout NavLink to match other items */
+.bottomSection .navItem {
+  background-color: transparent; /* Remove background */
+  margin-top: 0; /* Ensure no extra space */
+}
+
+/* Optional: Apply hover effect to logout */
+.bottomSection .navItem:hover {
+  transform: scale(1.1);
+}
