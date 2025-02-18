@@ -450,4 +450,3 @@ const Lefts = () => {
 };
 
 export default Lefts;
-h
