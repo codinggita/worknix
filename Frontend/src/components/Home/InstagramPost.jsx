@@ -386,7 +386,7 @@
 // };
 
 // export default InstagramPosts;
-import * as React from 'react';
+import React from 'react';
 import axios from 'axios';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Avatar from '@mui/joy/Avatar';
@@ -396,12 +396,10 @@ import CardContent from '@mui/joy/CardContent';
 import CardOverflow from '@mui/joy/CardOverflow';
 import Link from '@mui/joy/Link';
 import IconButton from '@mui/joy/IconButton';
-import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
 import MoreHoriz from '@mui/icons-material/MoreHoriz';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import ModeCommentOutlined from '@mui/icons-material/ModeCommentOutlined';
-import Face from '@mui/icons-material/Face';
 
 const InstagramPosts = () => {
   const [posts, setPosts] = React.useState([]);
@@ -409,8 +407,8 @@ const InstagramPosts = () => {
   // Fetch posts from the backend API
   const fetchPosts = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/posts'); // API endpoint for posts
-      setPosts(response.data); // Set posts to state
+      const response = await axios.get('https://worknix-addpost.onrender.com/api/posts'); // Use your API URL
+      setPosts(response.data); // Set posts to state (response.data should be an array)
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
@@ -419,7 +417,7 @@ const InstagramPosts = () => {
   // UseEffect to fetch posts when the component mounts
   React.useEffect(() => {
     fetchPosts();
-  }, []);  // Empty dependency array ensures it runs only once
+  }, []);
 
   return (
     <Box
@@ -442,30 +440,14 @@ const InstagramPosts = () => {
             }}
           >
             <CardContent orientation="horizontal" sx={{ alignItems: 'center', gap: 1 }}>
-              <Box
-                sx={{
-                  position: 'relative',
-                  '&::before': {
-                    content: '""',
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    bottom: 0,
-                    right: 0,
-                    m: '-2px',
-                    borderRadius: '50%',
-                    background:
-                      'linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)',
-                  },
-                }}
-              >
-                <Avatar
-                  size="sm"
-                  src={post.userAvatar || '/static/logo.png'} // Default avatar if not available
-                  sx={{ p: 0.5, border: '2px solid', borderColor: '#008080' }}
-                />
-              </Box>
-              <Typography sx={{ fontWeight: 'lg', color: '#008080' }}>{post.user}</Typography>
+              <Avatar
+                size="sm"
+                src={post.userAvatar || '/static/logo.png'} // Default avatar if not available
+                sx={{ p: 0.5, border: '2px solid', borderColor: '#008080' }}
+              />
+              <Typography sx={{ fontWeight: 'lg', color: '#008080' }}>
+                {post.user || 'Anonymous'}
+              </Typography>
               <IconButton
                 variant="plain"
                 color="neutral"
@@ -477,10 +459,10 @@ const InstagramPosts = () => {
             </CardContent>
             <CardOverflow>
               <AspectRatio>
-                {post.mediaType === 'image' ? (
-                  <img src={post.mediaUrl} alt="Post" loading="lazy" />
-                ) : (
+                {post.mediaType === 'video' ? (
                   <video src={post.mediaUrl} controls loading="lazy" />
+                ) : (
+                  <img src={post.mediaUrl} alt="Post" loading="lazy" />
                 )}
               </AspectRatio>
             </CardOverflow>
@@ -495,24 +477,8 @@ const InstagramPosts = () => {
               </Box>
             </CardContent>
             <CardContent>
-              <Link
-                component="button"
-                underline="none"
-                textColor="#008080"
-                sx={{ fontSize: 'sm', fontWeight: 'lg' }}
-              >
-                {post.likes} Likes
-              </Link>
               <Typography sx={{ fontSize: 'sm', color: '#008080' }}>
-                <Link
-                  component="button"
-                  color="neutral"
-                  textColor="#008080"
-                  sx={{ fontWeight: 'lg' }}
-                >
-                  {post.user}
-                </Link>{' '}
-                {post.description}
+                <strong>{post.user || 'Anonymous'}:</strong> {post.description}
               </Typography>
               <Link
                 component="button"
