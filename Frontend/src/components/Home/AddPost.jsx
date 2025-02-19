@@ -421,7 +421,6 @@
 
 
 
-
 import React, { useState } from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
 import axios from "axios";
@@ -457,7 +456,7 @@ const AddPost = ({ onClose, fetchPosts }) => {
     try {
       // Sending post request to backend
       const response = await axios.post(
-        "https://worknix-addpost.onrender.com/api/posts", // Replace with backend URL
+        "https://worknix-addpost.onrender.com/api/posts", // Backend URL
         formData,
         {
           headers: {
