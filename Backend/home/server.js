@@ -1,33 +1,35 @@
+require("dotenv").config(); // Load environment variables
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const dotenv = require("dotenv");
 const postRoutes = require("./routes/postRoutes");
 
-dotenv.config();
 const app = express();
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors()); // Enable cross-origin requests
+
+// Debugging: Verify Cloudinary configuration
+console.log("Cloudinary Config Debug:", {
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // MongoDB Connection
-const mongoUri = "mongodb+srv://TAJ:T7Dr9Q70tUgnen2e@cluster0.3y5sd.mongodb.net/worknix?retryWrites=true&w=majority";
+const mongoUri = process.env.MONGO_URI;
+mongoose
+  .connect(mongoUri)
+  .then(() => console.log("Connected to MongoDB Atlas"))
+  .catch((error) => console.error("Error connecting to MongoDB:", error));
 
-mongoose.connect(mongoUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-mongoose.connection.once("open", () =>
-  console.log("Connected to MongoDB Atlas")
-);
-
-// API Routes
+// Routes
 app.use("/api/posts", postRoutes);
 
-// Start Server
+// Server Initialization
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () =>
-  console.log(`Server running on http://localhost:${PORT}`)
-);
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
