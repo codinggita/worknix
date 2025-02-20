@@ -16,11 +16,17 @@ const storage = multer.memoryStorage();
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    const allowedMimeTypes = ["image/jpeg", "image/png", "image/jpg", "video/mp4"];
+    const allowedMimeTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "video/mp4",
+      "audio/mpeg", // MIME type for MP3
+    ];
     if (allowedMimeTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error("Only jpg, jpeg, png, and mp4 files are allowed"), false);
+      cb(new Error("Only jpg, jpeg, png, mp4, and mp3 files are allowed"), false);
     }
   },
 });
@@ -28,12 +34,8 @@ const upload = multer({
 // POST route to create a post
 router.post("/", upload.single("media"), async (req, res) => {
   try {
-    console.log("Incoming Request Body:", req.body);
-    console.log("Incoming File:", req.file);
-
     const { description } = req.body;
 
-    // Validate fields
     if (!description || !req.file) {
       return res.status(400).json({ error: "Description and media file are required" });
     }
@@ -42,7 +44,7 @@ router.post("/", upload.single("media"), async (req, res) => {
     const uploadToCloudinary = () =>
       new Promise((resolve, reject) => {
         const uploadStream = cloudinary.uploader.upload_stream(
-          { resource_type: "auto", folder: "worknix_posts" },
+          { resource_type: "auto", folder: "worknix_posts" }, // `auto` detects file type (image, video, or audio)
           (error, result) => {
             if (error) reject(error);
             else resolve(result);
@@ -58,11 +60,10 @@ router.post("/", upload.single("media"), async (req, res) => {
       description,
       mediaUrl: cloudinaryResult.secure_url,
       mediaType: req.file.mimetype,
+      likes: 0, // Initialize likes as 0
     });
 
     await newPost.save();
-
-    console.log("Post saved successfully:", newPost);
 
     res.status(201).json({ message: "Post created successfully", post: newPost });
   } catch (error) {
@@ -71,14 +72,33 @@ router.post("/", upload.single("media"), async (req, res) => {
   }
 });
 
+// PATCH route to like a post
+router.patch("/:id/like", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the post by ID and increment likes
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
+      { $inc: { likes: 1 } }, // Increment likes by 1
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedPost) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    console.error("Error liking post:", error.message);
+    res.status(500).json({ error: "Failed to like the post" });
+  }
+});
+
 // GET route to fetch all posts
 router.get("/", async (req, res) => {
   try {
-    // Fetch all posts from the database, sorted by creation date (newest first)
-    const posts = await Post.find().sort({ createdAt: -1 });
-
-    console.log("Fetched posts successfully:", posts);
-
+    const posts = await Post.find().sort({ createdAt: -1 }); // Sort by newest first
     res.status(200).json(posts);
   } catch (error) {
     console.error("Error fetching posts:", error.message);
