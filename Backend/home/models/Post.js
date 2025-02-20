@@ -1,15 +1,3 @@
-// const mongoose = require("mongoose");
-
-// const postSchema = new mongoose.Schema({
-//   description: String,
-//   mediaUrl: String,
-//   mediaType: String, // 'image' or 'video'
-//   mediaId: String, // Cloudinary file ID
-//   likes: { type: Number, default: 0 },
-//   comments: [{ type: String }],
-// });
-
-// module.exports = mongoose.model("Post", postSchema);
 const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema({
@@ -18,18 +6,18 @@ const postSchema = new mongoose.Schema({
     required: true,
   },
   mediaUrl: {
-    type: String,
+    type: String, // Store Base64 string
     required: true,
   },
   mediaType: {
-    type: String,
-    enum: ["image", "video"],
+    type: String, // e.g., "image/jpeg"
     required: true,
   },
-  mediaId: {
-    type: String,
-    required: true,
+  likes: {
+    type: Number,
+    default: 0,
   },
 });
 
-module.exports = mongoose.model("Post", postSchema);
+const Post = mongoose.model("Post", postSchema);
+module.exports = Post;

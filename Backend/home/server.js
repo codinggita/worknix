@@ -1,6 +1,5 @@
-require("dotenv").config(); // Load environment variables
+require("dotenv").config();
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const postRoutes = require("./routes/postRoutes");
@@ -8,20 +7,13 @@ const postRoutes = require("./routes/postRoutes");
 const app = express();
 
 // Middleware
-app.use(bodyParser.json());
-app.use(cors()); // Enable cross-origin requests
-
-// Debugging: Verify Cloudinary configuration
-console.log("Cloudinary Config Debug:", {
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+app.use(express.json({ limit: "50mb" })); // For JSON payloads
+app.use(express.urlencoded({ extended: true, limit: "50mb" })); // For URL-encoded form data
+app.use(cors()); // Enable CORS
 
 // MongoDB Connection
-const mongoUri = process.env.MONGO_URI;
 mongoose
-  .connect(mongoUri)
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((error) => console.error("Error connecting to MongoDB:", error));
 
