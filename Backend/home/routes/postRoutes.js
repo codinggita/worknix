@@ -1,52 +1,74 @@
 const express = require("express");
-const multer = require("multer");
-const Post = require("../models/Post");
 const router = express.Router();
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
+const Post = require("../models/Post");
 
-// Multer Configuration
-const storage = multer.memoryStorage(); // Use memory storage for Base64 handling
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-// File filter to allow only specific media types
-const fileFilter = (req, file, cb) => {
-  const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
-  if (allowedTypes.includes(file.mimetype)) {
-    cb(null, true); // Accept the file
-  } else {
-    cb(new Error("Invalid file type. Only JPG, JPEG, and PNG are allowed."), false); // Reject the file
-  }
-};
+// Configure multer
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    const allowedMimeTypes = ["image/jpeg", "image/png", "image/jpg", "video/mp4"];
+    if (allowedMimeTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only jpg, jpeg, png, and mp4 files are allowed"), false);
+    }
+  },
+});
 
-const upload = multer({ storage, fileFilter });
-
-// Post Route
+// POST route to create a post
 router.post("/", upload.single("media"), async (req, res) => {
   try {
+    console.log("Incoming Request Body:", req.body);
+    console.log("Incoming File:", req.file);
+
     const { description } = req.body;
 
+    // Validate fields
     if (!description || !req.file) {
-      console.error("Missing fields:", { description, file: req.file });
       return res.status(400).json({ error: "Description and media file are required" });
     }
 
-    // Convert uploaded file to Base64
-    const mediaData = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
+    // Upload file to Cloudinary
+    const uploadToCloudinary = () =>
+      new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { resource_type: "auto", folder: "worknix_posts" },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          }
+        );
+        uploadStream.end(req.file.buffer);
+      });
 
-    // Save to database
+    const cloudinaryResult = await uploadToCloudinary();
+
+    // Save post to database
     const newPost = new Post({
       description,
-      mediaUrl: mediaData,
+      mediaUrl: cloudinaryResult.secure_url,
       mediaType: req.file.mimetype,
     });
 
     await newPost.save();
+
     console.log("Post saved successfully:", newPost);
 
     res.status(201).json({ message: "Post created successfully", post: newPost });
   } catch (error) {
-    console.error("Error in POST /api/posts:", error.message);
-    res.status(500).json({ error: error.message || "Failed to create post" });
+    console.error("Error creating post:", error.message);
+    res.status(500).json({ error: error.message });
   }
 });
 
 module.exports = router;
-
