@@ -16,11 +16,11 @@ const storage = multer.memoryStorage();
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    const allowedMimeTypes = ["image/jpeg", "image/png", "image/jpg", "video/mp4"];
+    const allowedMimeTypes = ["image/jpeg", "image/png", "image/jpg", "video/mp4", "audio/mpeg"];
     if (allowedMimeTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error("Only jpg, jpeg, png, and mp4 files are allowed"), false);
+      cb(new Error("Only jpg, jpeg, png, mp4, and mp3 files are allowed"), false);
     }
   },
 });
@@ -71,14 +71,59 @@ router.post("/", upload.single("media"), async (req, res) => {
   }
 });
 
+// PATCH route to like a post
+router.patch("/:id/like", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the post by ID and increment likes
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
+      { $inc: { likes: 1 } }, // Increment likes by 1
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedPost) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    console.error("Error liking post:", error.message);
+    res.status(500).json({ error: "Failed to like the post" });
+  }
+});
+
+// POST route to add a comment to a post
+router.post("/:id/comment", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { user, text } = req.body;
+
+    if (!text || !user) {
+      return res.status(400).json({ error: "User and comment text are required" });
+    }
+
+    // Find the post by ID and add a comment
+    const post = await Post.findById(id);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    post.comments.push({ user, text });
+    await post.save();
+
+    res.status(201).json(post);
+  } catch (error) {
+    console.error("Error adding comment:", error.message);
+    res.status(500).json({ error: "Failed to add comment" });
+  }
+});
+
 // GET route to fetch all posts
 router.get("/", async (req, res) => {
   try {
-    // Fetch all posts from the database, sorted by creation date (newest first)
-    const posts = await Post.find().sort({ createdAt: -1 });
-
-    console.log("Fetched posts successfully:", posts);
-
+    const posts = await Post.find().sort({ createdAt: -1 }); // Fetch posts in descending order of creation
     res.status(200).json(posts);
   } catch (error) {
     console.error("Error fetching posts:", error.message);
