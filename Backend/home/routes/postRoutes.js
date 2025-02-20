@@ -71,4 +71,19 @@ router.post("/", upload.single("media"), async (req, res) => {
   }
 });
 
+// GET route to fetch all posts
+router.get("/", async (req, res) => {
+  try {
+    // Fetch all posts from the database, sorted by creation date (newest first)
+    const posts = await Post.find().sort({ createdAt: -1 });
+
+    console.log("Fetched posts successfully:", posts);
+
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error("Error fetching posts:", error.message);
+    res.status(500).json({ error: "Failed to fetch posts" });
+  }
+});
+
 module.exports = router;
