@@ -386,20 +386,20 @@
 // };
 
 // export default InstagramPosts;
-import React from 'react';
-import axios from 'axios';
-import AspectRatio from '@mui/joy/AspectRatio';
-import Avatar from '@mui/joy/Avatar';
-import Box from '@mui/joy/Box';
-import Card from '@mui/joy/Card';
-import CardContent from '@mui/joy/CardContent';
-import CardOverflow from '@mui/joy/CardOverflow';
-import Link from '@mui/joy/Link';
-import IconButton from '@mui/joy/IconButton';
-import Typography from '@mui/joy/Typography';
-import MoreHoriz from '@mui/icons-material/MoreHoriz';
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import ModeCommentOutlined from '@mui/icons-material/ModeCommentOutlined';
+import React from "react";
+import axios from "axios";
+import AspectRatio from "@mui/joy/AspectRatio";
+import Avatar from "@mui/joy/Avatar";
+import Box from "@mui/joy/Box";
+import Card from "@mui/joy/Card";
+import CardContent from "@mui/joy/CardContent";
+import CardOverflow from "@mui/joy/CardOverflow";
+import IconButton from "@mui/joy/IconButton";
+import Typography from "@mui/joy/Typography";
+import MoreHoriz from "@mui/icons-material/MoreHoriz";
+import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
+import Favorite from "@mui/icons-material/Favorite";
+import ModeCommentOutlined from "@mui/icons-material/ModeCommentOutlined";
 
 const InstagramPosts = () => {
   const [posts, setPosts] = React.useState([]);
@@ -407,10 +407,27 @@ const InstagramPosts = () => {
   // Fetch posts from the backend API
   const fetchPosts = async () => {
     try {
-      const response = await axios.get('https://worknix-addpost.onrender.com/api/posts'); // Use your API URL
-      setPosts(response.data); // Set posts to state (response.data should be an array)
+      const response = await axios.get("https://worknix-addpost.onrender.com/api/posts"); // Replace with your API URL
+      setPosts(response.data); // Set posts to state
     } catch (error) {
-      console.error('Error fetching posts:', error);
+      console.error("Error fetching posts:", error);
+    }
+  };
+
+  // Handle like button click
+  const handleLike = async (postId) => {
+    try {
+      const response = await axios.patch(`https://worknix-addpost.onrender.com/api/posts/${postId}/like`);
+      const updatedPost = response.data;
+
+      // Update the state with the updated post
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post._id === updatedPost._id ? updatedPost : post
+        )
+      );
+    } catch (error) {
+      console.error("Error liking post:", error);
     }
   };
 
@@ -422,72 +439,73 @@ const InstagramPosts = () => {
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        height: '100vh',
-        overflowY: 'auto',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        height: "100vh",
+        overflowY: "auto",
         p: 2,
       }}
     >
       {posts.map((post) => (
-        <Box key={post._id} sx={{ width: '100%', maxWidth: 600, mb: 2 }}>
+        <Box key={post._id} sx={{ width: "100%", maxWidth: 600, mb: 2 }}>
           <Card
             variant="outlined"
             sx={{
-              '--Card-radius': (theme) => theme.vars.radius.xs,
-              borderColor: '#008080',
+              "--Card-radius": (theme) => theme.vars.radius.xs,
+              borderColor: "#008080",
             }}
           >
-            <CardContent orientation="horizontal" sx={{ alignItems: 'center', gap: 1 }}>
+            <CardContent orientation="horizontal" sx={{ alignItems: "center", gap: 1 }}>
               <Avatar
                 size="sm"
-                src={post.userAvatar || '/static/logo.png'} // Default avatar if not available
-                sx={{ p: 0.5, border: '2px solid', borderColor: '#008080' }}
+                src={post.userAvatar || "/static/logo.png"} // Default avatar if not available
+                sx={{ p: 0.5, border: "2px solid", borderColor: "#008080" }}
               />
-              <Typography sx={{ fontWeight: 'lg', color: '#008080' }}>
-                {post.user || 'Anonymous'}
+              <Typography sx={{ fontWeight: "lg", color: "#008080" }}>
+                {post.user || "Anonymous"}
               </Typography>
               <IconButton
                 variant="plain"
                 color="neutral"
                 size="sm"
-                sx={{ ml: 'auto', color: '#008080' }}
+                sx={{ ml: "auto", color: "#008080" }}
               >
                 <MoreHoriz />
               </IconButton>
             </CardContent>
             <CardOverflow>
               <AspectRatio>
-                {post.mediaType === 'video' ? (
+                {post.mediaType === "video/mp4" ? (
                   <video src={post.mediaUrl} controls loading="lazy" />
+                ) : post.mediaType === "audio/mpeg" ? (
+                  <audio src={post.mediaUrl} controls />
                 ) : (
                   <img src={post.mediaUrl} alt="Post" loading="lazy" />
                 )}
               </AspectRatio>
             </CardOverflow>
-            <CardContent orientation="horizontal" sx={{ alignItems: 'center', mx: -1 }}>
-              <Box sx={{ width: 0, display: 'flex', gap: 0.5 }}>
-                <IconButton variant="plain" color="neutral" size="sm" sx={{ color: '#008080' }}>
-                  <FavoriteBorder />
+            <CardContent orientation="horizontal" sx={{ alignItems: "center", mx: -1 }}>
+              <Box sx={{ width: 0, display: "flex", gap: 0.5 }}>
+                <IconButton
+                  variant="plain"
+                  color="neutral"
+                  size="sm"
+                  sx={{ color: "#008080" }}
+                  onClick={() => handleLike(post._id)}
+                >
+                  {post.likes > 0 ? <Favorite /> : <FavoriteBorder />}
                 </IconButton>
-                <IconButton variant="plain" color="neutral" size="sm" sx={{ color: '#008080' }}>
-                  <ModeCommentOutlined />
-                </IconButton>
+                <Typography sx={{ color: "#008080" }}>{post.likes || 0}</Typography>
               </Box>
+              <IconButton variant="plain" color="neutral" size="sm" sx={{ color: "#008080" }}>
+                <ModeCommentOutlined />
+              </IconButton>
             </CardContent>
             <CardContent>
-              <Typography sx={{ fontSize: 'sm', color: '#008080' }}>
-                <strong>{post.user || 'Anonymous'}:</strong> {post.description}
+              <Typography sx={{ fontSize: "sm", color: "#008080" }}>
+                <strong>{post.user || "Anonymous"}:</strong> {post.description}
               </Typography>
-              <Link
-                component="button"
-                underline="none"
-                startDecorator="…"
-                sx={{ fontSize: 'sm', color: '#008080' }}
-              >
-                more
-              </Link>
             </CardContent>
           </Card>
         </Box>
