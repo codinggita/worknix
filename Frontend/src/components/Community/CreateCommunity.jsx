@@ -1,70 +1,76 @@
-// src/components/Community/CreateCommunity.jsx
-import React, { useState } from "react";
-import "./styles/CreateCommunity.css";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const CreateCommunity = ({ onCreate }) => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [isPrivate, setIsPrivate] = useState(false);
+function CreateCommunity() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    image: ''
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Static community creation logic for now
-    const newCommunity = {
-      id: Date.now(), // Generate a temporary unique ID
-      name,
-      description,
-      isPrivate,
-      members: 1, // Assume creator is the first member
-    };
-
-    onCreate(newCommunity); // Call the parent function to add the new community
-    setName(""); // Reset form fields
-    setDescription("");
-    setIsPrivate(false);
+    // Handle community creation
+    navigate('/my-communities');
   };
 
   return (
-    <div className="create-community">
-      <h2>Create a New Community</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">Community Name</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter community name"
-            required
-          />
+    <div className="p-6 max-w-2xl mx-auto">
+      <h1 className="text-3xl font-bold text-gray-800 mb-8">Create New Community</h1>
+      
+      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6">
+        <div className="space-y-6">
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+              Community Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+              required
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+              Description
+            </label>
+            <textarea
+              id="description"
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary h-32"
+              required
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">
+              Community Image URL
+            </label>
+            <input
+              type="url"
+              id="image"
+              value={formData.image}
+              onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          
+          <button
+            type="submit"
+            className="w-full bg-primary text-white py-3 rounded-lg hover:bg-secondary transition-all transform hover:scale-105"
+          >
+            Create Community
+          </button>
         </div>
-        <div className="form-group">
-          <label htmlFor="description">Description</label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Enter community description"
-            required
-          />
-        </div>
-        <div className="form-group checkbox-group">
-          <input
-            type="checkbox"
-            id="isPrivate"
-            checked={isPrivate}
-            onChange={(e) => setIsPrivate(e.target.checked)}
-          />
-          <label htmlFor="isPrivate">Make this community private</label>
-        </div>
-        <button type="submit" className="create-btn">
-          Create Community
-        </button>
       </form>
     </div>
   );
-};
+}
 
-export default CreateCommunity;
+export default CreateCommunity
