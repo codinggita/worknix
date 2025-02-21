@@ -1,27 +1,27 @@
 const express = require("express");
-const router = express.Router();
 const {
-  getAllCommunities,
   createCommunity,
-  joinCommunity,
-  followCommunity,
-  getCommunityDetails,
+  getAllCommunities,
+  getCommunityById,
+  updateCommunity,
+  deleteCommunity,
 } = require("../controllers/communityController");
-const { protect } = require("../middleware/authMiddleware"); // Assuming you have authMiddleware.js for authentication
 
-// Route to get all communities
-router.get("/all", protect, getAllCommunities);
+const router = express.Router();
 
-// Route to create a community
-router.post("/create", protect, createCommunity);
+// Create a community
+router.post("/", createCommunity);
 
-// Route to join a community
-router.post("/:communityId/join", protect, joinCommunity);
+// Get all communities
+router.get("/", getAllCommunities);
 
-// Route to follow a community
-router.post("/:communityId/follow", protect, followCommunity);
+// Get a community by ID
+router.get("/:id", getCommunityById);
 
-// Route to get details of a specific community
-router.get("/:communityId", protect, getCommunityDetails);
+// Update a community
+router.put("/:id", updateCommunity);
+
+// Delete a community
+router.delete("/:id", deleteCommunity);
 
 module.exports = router;

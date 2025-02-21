@@ -1,21 +1,25 @@
 const express = require("express");
-const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+const communityRoutes = require("./routes/communityRoutes");
+const dotenv = require("dotenv");
 
-// Load environment variables
+// Explicitly load .env from the config folder
 dotenv.config({ path: "./config/.env" });
 
-// Connect to database
+// Connect to the database
 connectDB();
 
 const app = express();
 
-// Middleware
+// Middleware to parse JSON requests
 app.use(express.json());
 
-// Example route to test server
-app.get("/", (req, res) => {
-  res.send("API is running...");
+// Register Community routes
+app.use("/api/communities", communityRoutes);
+
+// Default 404 handler
+app.use((req, res) => {
+  res.status(404).send("Route not found");
 });
 
 const PORT = process.env.PORT || 5000;

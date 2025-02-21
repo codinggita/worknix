@@ -1,41 +1,20 @@
 const mongoose = require("mongoose");
 
-const communitySchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: [true, "Community name is required"],
-      trim: true,
-      unique: true,
-    },
-    description: {
-      type: String,
-      required: [true, "Community description is required"],
-      trim: true,
-    },
-    isPrivate: {
-      type: Boolean,
-      default: false, // Public by default
-    },
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: [true, "Community creator is required"],
-    },
-    members: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    followers: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+const communitySchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
   },
-  { timestamps: true }
-);
+  description: {
+    type: String,
+    required: true,
+  },
+  isPrivate: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-module.exports = mongoose.model("Community", communitySchema);
+const Community = mongoose.model("Community", communitySchema);
+
+module.exports = Community;
