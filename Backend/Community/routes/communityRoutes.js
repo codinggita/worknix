@@ -1,35 +1,27 @@
 const express = require("express");
-const router = express.Router();
 const {
   createCommunity,
   getAllCommunities,
   getCommunityById,
-  joinCommunity,
-  followCommunity,
-  getCommunityMessages,
-  sendMessage,
-} = require("../controllers/communityControllers");
-const { protect } = require("../middleware/authMiddleware");
+  updateCommunity,
+  deleteCommunity,
+} = require("../controllers/communityController");
 
-// Create a new community
-router.post("/create", protect, createCommunity);
+const router = express.Router();
 
-// Get all public communities
-router.get("/all", protect, getAllCommunities);
+// Create a community
+router.post("/", createCommunity);
 
-// Get a single community by ID
-router.get("/:id", protect, getCommunityById);
+// Get all communities
+router.get("/", getAllCommunities);
 
-// Join a community
-router.post("/:id/join", protect, joinCommunity);
+// Get a community by ID
+router.get("/:id", getCommunityById);
 
-// Follow a community
-router.post("/:id/follow", protect, followCommunity);
+// Update a community
+router.put("/:id", updateCommunity);
 
-// Get messages of a community
-router.get("/:id/messages", protect, getCommunityMessages);
-
-// Send a message in a community
-router.post("/:id/messages", protect, sendMessage);
+// Delete a community
+router.delete("/:id", deleteCommunity);
 
 module.exports = router;
