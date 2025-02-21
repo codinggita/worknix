@@ -1,0 +1,87 @@
+/* Styles for CreateCommunity Component */
+.create-community-container {
+    width: 40%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .create-community-container h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .create-community-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .create-community-form label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .create-community-form input,
+  .create-community-form textarea,
+  .create-community-form select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .create-community-form input:focus,
+  .create-community-form textarea:focus,
+  .create-community-form select:focus {
+    border-color: #40a9ff;
+    box-shadow: 0 0 4px rgba(64, 169, 255, 0.6);
+  }
+  
+  .create-community-form textarea {
+    resize: none;
+    height: 100px;
+  }
+  
+  .create-community-form .private-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .create-community-form .private-checkbox label {
+    margin: 0;
+  }
+  
+  .create-community-form button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #1890ff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .create-community-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .create-community-form button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  

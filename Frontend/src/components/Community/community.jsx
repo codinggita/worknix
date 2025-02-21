@@ -1,82 +1,78 @@
-import React from 'react';
-import CommunityUI from './CommunityUI/CommunityUI';
-import NavigationBar from '../Common/NavigationBar';
-import Searchbar from '../Common/Searchbar';
+// src/components/Community/Community.jsx
+import React, { useState } from "react";
+import "./styles/Community.css";
+import CommunityList from "./CommunityList";
+import CommunityDetails from "./CommunityDetails";
 
 const Community = () => {
+  // Static data for communities
+  const [communities, setCommunities] = useState([
+    {
+      id: 1,
+      name: "Tech Enthusiasts",
+      description: "A community for tech lovers.",
+      isPrivate: false,
+      members: 120,
+      messages: [
+        { id: 1, user: "Alice", content: "Welcome to Tech Enthusiasts!", timestamp: "2025-02-20 10:30 AM" },
+      ],
+    },
+    {
+      id: 2,
+      name: "Fitness Freaks",
+      description: "Share and learn fitness tips.",
+      isPrivate: true,
+      members: 75,
+      messages: [],
+    },
+    {
+      id: 3,
+      name: "Photography Hub",
+      description: "A place to share and discuss photography.",
+      isPrivate: false,
+      members: 90,
+      messages: [
+        { id: 1, user: "John", content: "Any tips for low-light photography?", timestamp: "2025-02-19 9:45 PM" },
+      ],
+    },
+  ]);
+
+  const [selectedCommunity, setSelectedCommunity] = useState(null);
+
+  // Handle selecting a community to view its details
+  const handleCommunityClick = (communityId) => {
+    const community = communities.find((c) => c.id === communityId);
+    setSelectedCommunity(community);
+  };
+
+  // Handle going back to the community list
+  const handleBack = () => {
+    setSelectedCommunity(null);
+  };
+
+  // Handle adding a new message to a community
+  const handleAddMessage = (communityId, message) => {
+    setCommunities((prevCommunities) =>
+      prevCommunities.map((c) =>
+        c.id === communityId ? { ...c, messages: [...c.messages, message] } : c
+      )
+    );
+  };
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        height: '100vh',
-        backgroundColor: '#F5FAFF', // Uniform background color
-      }}
-    >
-      {/* Left-Side Navigation Bar */}
-      <div
-        style={{
-          left: '0px',
-          width: '250px',
-          position: 'fixed',
-          top: 0,
-          bottom: 0,
-          display: 'flex',
-          alignItems: 'center',
-          backgroundColor: '#F5FAFF', // Same background color
-        }}
-      >
-        <NavigationBar />
-      </div>
-
-      {/* Main Content */}
-      <div
-        style={{
-          flex: 1,
-          marginLeft: '250px', // Adjust to match the NavigationBar width
-          display: 'flex',
-          flexDirection: 'column',
-          backgroundColor: '#F5FAFF', // Same background color
-          justifyContent: 'center', // Center vertically
-          alignItems: 'center', // Center horizontally
-        }}
-      >
-        {/* Top Searchbar Box */}
-        <div
-          style={{
-            width: '100%',
-            maxWidth: '800px', // Restrict max width for the search bar
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '16px',
-            border: '1px solid #ccc',
-            borderRadius: '8px',
-            marginBottom: '24px', // Space between search bar and main content
-            backgroundColor: '#fff', // White box background
-            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', // Add slight shadow for box
-            position: 'sticky',
-            top: '16px', // Stick to the top when scrolling
-            zIndex: 10,
-          }}
-        >
-          <Searchbar />
-        </div>
-
-        {/* Community UI */}
-        <div
-          style={{
-            width: '100%',
-            maxWidth: '800px', // Restrict max width for main content
-            padding: '24px',
-            backgroundColor: '#fff', // Add white background for contrast
-            borderRadius: '16px', // Rounded corners for CommunityUI
-            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', // Add shadow for better appearance
-            overflowY: 'auto', // Enable scrolling for long content
-          }}
-        >
-          <CommunityUI />
-        </div>
-      </div>
+    <div className="community-container">
+      {selectedCommunity ? (
+        <CommunityDetails
+          community={selectedCommunity}
+          onBack={handleBack}
+          onAddMessage={handleAddMessage}
+        />
+      ) : (
+        <CommunityList
+          communities={communities}
+          onCommunityClick={handleCommunityClick}
+        />
+      )}
     </div>
   );
 };
