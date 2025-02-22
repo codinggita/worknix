@@ -12,7 +12,7 @@ const Community = () => {
       <NavigationBar className="fixed top-0 left-0 h-full w-56 bg-white shadow-lg z-40" />
 
       {/* Main Content Area */}
-      <div className="flex-1 ml-56"> {/* Content starts after sidebar */}
+      <div className="flex-1 ml-6"> {/* Content starts after sidebar */}
         
         {/* Top Navigation (Fixed at the top of the page, horizontally across) */}
         <div className="fixed top-0 left-0 right-0 bg-primary text-white z-0">
