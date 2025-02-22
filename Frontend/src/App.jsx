@@ -223,7 +223,7 @@ import Community from "./components/Community/Community";
 import TodaysStats from "./components/TodaysStats/TodaysStats";
 import UserProfile from "./components/UserProfile/UserProfile";
 import Action from "./components/Actions.jsx/Action";
-import WorkflowPage from "./components/Workflow/WorkflowPage"; // Import the Workflow component
+import WorkflowPage from "./components/Workflow/Workflow"; // Import the Workflow component
 import ProtectedRoute from "./components/ProtectedRoute"; // Ensure the path is correct
 
 function App() {
