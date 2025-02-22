@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors"); // Import cors
 const connectDB = require("./config/db");
 const communityRoutes = require("./routes/communityRoutes");
 const dotenv = require("dotenv");
@@ -10,6 +11,9 @@ dotenv.config({ path: "./config/.env" });
 connectDB();
 
 const app = express();
+
+// Enable CORS
+app.use(cors());
 
 // Middleware to parse JSON requests
 app.use(express.json());
