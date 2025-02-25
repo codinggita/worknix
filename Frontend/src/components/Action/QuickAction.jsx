@@ -1,12 +1,6 @@
 import { DivideIcon as LucideIcon } from 'lucide-react';
 
-interface QuickActionProps {
-  icon: LucideIcon;
-  text: string;
-  onClick: () => void;
-}
-
-export function QuickAction({ icon: Icon, text, onClick }: QuickActionProps) {
+export function QuickAction({ icon: Icon, text, onClick }) {
   return (
     <button
       onClick={onClick}

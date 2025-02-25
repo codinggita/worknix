@@ -299,13 +299,14 @@
 
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./components/Login/Login";
-import Signup from "./components/Signup/Signup";
+// import Login from "./components/Login/Login";
+// import Signup from "./components/Signup/Signup";
+ import Auth from "./components/Auth/Auth"
 import Home from "./components/Home/Home";
 import Community from "./components/Community/Community";
 import TodaysStats from "./components/TodaysStats/TodaysStats";
 import UserProfile from "./components/UserProfile/UserProfile";
-import Action from "./components/Actions.jsx/Action";
+import Action from "./components/Action/Action";
 import WorkflowPage from "./components/Workflow/Workflow"; // Import the Workflow component
 import ProtectedRoute from "./components/ProtectedRoute"; // Ensure the path is correct
 
@@ -314,8 +315,9 @@ function App() {
     <Router>
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<Auth/>} />
+        {/* <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} /> */}
 
         {/* Protected Routes */}
         <Route
@@ -354,7 +356,7 @@ function App() {
           }
         />
         <Route
-          path="/action"
+          path="/actions"
           element={
             <ProtectedRoute>
               <Action />

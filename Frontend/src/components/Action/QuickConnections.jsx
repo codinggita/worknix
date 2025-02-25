@@ -1,11 +1,7 @@
 import { UserPlus, Vote, Clock, Megaphone, LogOut, Building2 } from 'lucide-react';
 import { QuickAction } from './QuickAction';
 
-interface QuickConnectionsProps {
-  onActionClick: (action: string) => void;
-}
-
-export function QuickConnections({ onActionClick }: QuickConnectionsProps) {
+export function QuickConnections({ onActionClick }) {
   return (
     <div className="bg-white rounded-lg p-6 shadow-sm">
       <h2 className="text-lg font-bold text-teal-600 mb-4">Quick Connections</h2>

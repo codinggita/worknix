@@ -1,12 +1,6 @@
 import { DivideIcon as LucideIcon } from 'lucide-react';
 
-interface AssetItemProps {
-  category: string;
-  count: number;
-  icon: LucideIcon;
-}
-
-export function AssetItem({ category, count, icon: Icon }: AssetItemProps) {
+export function AssetItem({ category, count, icon: Icon }) {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-3">

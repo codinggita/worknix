@@ -6,7 +6,7 @@ export function StatusBadge({ status }) {
   };
 
   return (
-    <span className={`px-2 py-1 rounded-full text-xs font-medium ${colors[status] || "bg-gray-100 text-gray-800"}`}>
+    <span className={`px-2 py-1 rounded-full text-xs font-medium ${colors[status]}`}>
       {status.charAt(0).toUpperCase() + status.slice(1)}
     </span>
   );
