@@ -364,7 +364,7 @@ function Communities() {
   );
 
   return (
-    <div className="p-0 w-full h-screen">
+    <div className="p-7 w-full h-screen">
       
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gray-800">Communities To Explore</h1>

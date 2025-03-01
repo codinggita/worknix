@@ -183,9 +183,72 @@
 // export default Navbar;
 
 
+// import { Link, useLocation } from 'react-router-dom';
+// import { UserGroupIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+// import { useState } from 'react';
+// import NavigationBar from '../Common/NavigationBar'; // Left Sidebar
+
+// function Navbar() {
+//   const location = useLocation();
+//   const isActive = (path) => location.pathname === path;
+
+//   return (
+//     <div className="flex min-h-screen">
+//       {/* Left Sidebar */}
+//       <NavigationBar className="fixed top-0 left-0 h-full w-56 bg-white shadow-lg z-40" />
+
+//       {/* Main Content Area */}
+//       <div className="flex-1 ml-56"> {/* Add left margin to accommodate sidebar width */}
+//         <nav className="bg-white text-[#008080] p-4 shadow-lg fixed top-0 left-20 right-0 z-50">
+//         <div className="w-full px-5 flex items-center justify-between">
+//         <div className="flex items-center space-x-8">
+//               <div className="flex items-center space-x-40">
+//                 {/* Communities Link */}
+//                 <Link
+//                   to="/community"
+//                   className={`flex items-center space-x-2 px-10 py-2 rounded-lg transition-all transform hover:scale-105 ${
+//                     isActive('/community') ? 'bg-secondary' : 'hover:bg-secondary'
+//                   }`}
+//                 >
+//                   <UserGroupIcon className="w-5 h-5" />
+//                   <span>Communities</span>
+//                 </Link>
+
+//                 {/* My Communities Link */}
+//                 <Link
+//                   to="/community/my-communities"
+//                   className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all transform hover:scale-105 ${
+//                     isActive('/community/my-communities') ? 'bg-secondary' : 'hover:bg-secondary'
+//                   }`}
+//                 >
+//                   <UserGroupIcon className="w-5 h-5" />
+//                   <span>My Communities</span>
+//                 </Link>
+
+//                 {/* Create Community Link */}
+//                 <Link
+//                   to="/community/create-community"
+//                   className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all transform hover:scale-105 ${
+//                     isActive('/community/create-community') ? 'bg-secondary' : 'hover:bg-secondary'
+//                   }`}
+//                 >
+//                   <PlusCircleIcon className="w-5 h-5" />
+//                   <span>Create Community</span>
+//                 </Link>
+//               </div>
+//             </div>
+//           </div>
+//         </nav>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default Navbar;
+  
+
 import { Link, useLocation } from 'react-router-dom';
 import { UserGroupIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
-import { useState } from 'react';
 import NavigationBar from '../Common/NavigationBar'; // Left Sidebar
 
 function Navbar() {
@@ -199,15 +262,17 @@ function Navbar() {
 
       {/* Main Content Area */}
       <div className="flex-1 ml-56"> {/* Add left margin to accommodate sidebar width */}
-        <nav className="bg-[#008080] text-white p-4 shadow-lg fixed top-0 left-20 right-0 z-50">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <nav className="bg-white text-teal-600 p-4 shadow-lg fixed top-0 left-20 right-0 z-50">
+          <div className="w-full px-12 flex items-center justify-between">
             <div className="flex items-center space-x-8">
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-40">
                 {/* Communities Link */}
                 <Link
                   to="/community"
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all transform hover:scale-105 ${
-                    isActive('/community') ? 'bg-secondary' : 'hover:bg-secondary'
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                    isActive('/community')
+                      ? 'bg-teal-100 text-teal-700'
+                      : 'hover:bg-teal-50 hover:text-teal-700'
                   }`}
                 >
                   <UserGroupIcon className="w-5 h-5" />
@@ -217,8 +282,10 @@ function Navbar() {
                 {/* My Communities Link */}
                 <Link
                   to="/community/my-communities"
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all transform hover:scale-105 ${
-                    isActive('/community/my-communities') ? 'bg-secondary' : 'hover:bg-secondary'
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                    isActive('/community/my-communities')
+                      ? 'bg-teal-100 text-teal-700'
+                      : 'hover:bg-teal-50 hover:text-teal-700'
                   }`}
                 >
                   <UserGroupIcon className="w-5 h-5" />
@@ -228,8 +295,10 @@ function Navbar() {
                 {/* Create Community Link */}
                 <Link
                   to="/community/create-community"
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all transform hover:scale-105 ${
-                    isActive('/community/create-community') ? 'bg-secondary' : 'hover:bg-secondary'
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                    isActive('/community/create-community')
+                      ? 'bg-teal-100 text-teal-700'
+                      : 'hover:bg-teal-50 hover:text-teal-700'
                   }`}
                 >
                   <PlusCircleIcon className="w-5 h-5" />
@@ -245,4 +314,3 @@ function Navbar() {
 }
 
 export default Navbar;
-  

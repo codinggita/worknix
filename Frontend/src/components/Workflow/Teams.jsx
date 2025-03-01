@@ -52,7 +52,7 @@ function Teams() {
   };
 
   return (
-    <div>
+    <div className="mt-7 ml-6">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gray-800">Teams</h1>
         <button className="flex items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors">
@@ -63,7 +63,7 @@ function Teams() {
 
       <div className="space-y-8">
         {teams.map((team, teamIndex) => (
-          <div key={teamIndex} className="bg-white rounded-lg shadow-sm overflow-hidden">
+          <div key={teamIndex} className="bg-white rounded-lg shadow-sm overflow-hidden mt-7">
             <div className="p-6 border-b flex justify-between items-center">
               <div>
                 <h2 className="text-xl font-semibold text-gray-800">{team.name}</h2>
@@ -80,7 +80,7 @@ function Teams() {
 
             <div className="divide-y">
               {team.members.map((member, memberIndex) => (
-                <div key={memberIndex} className="p-6 flex items-center justify-between">
+                <div key={memberIndex} className="p-6 flex items-center justify-between mt-7">
                   <div className="flex items-center space-x-4">
                     <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center">
                       <span className="text-lg font-medium text-teal-800">
@@ -113,73 +113,6 @@ function Teams() {
           </div>
         ))}
       </div>
-
-      {showAddMember && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-xl font-semibold mb-4">Add New Member</h3>
-            <form onSubmit={handleSubmitMember}>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Name</label>
-                  <input
-                    type="text"
-                    value={newMember.name}
-                    onChange={(e) => setNewMember({ ...newMember, name: e.target.value })}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Role</label>
-                  <input
-                    type="text"
-                    value={newMember.role}
-                    onChange={(e) => setNewMember({ ...newMember, role: e.target.value })}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Email</label>
-                  <input
-                    type="email"
-                    value={newMember.email}
-                    onChange={(e) => setNewMember({ ...newMember, email: e.target.value })}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Phone</label>
-                  <input
-                    type="tel"
-                    value={newMember.phone}
-                    onChange={(e) => setNewMember({ ...newMember, phone: e.target.value })}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="mt-6 flex justify-end space-x-3">
-                <button
-                  type="button"
-                  onClick={() => setShowAddMember(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
-                >
-                  Add Member
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
