@@ -1,144 +1,8 @@
-// const express = require("express");
-// const router = express.Router();
-// const multer = require("multer");
-// const cloudinary = require("cloudinary").v2;
-// const Post = require("../models/Post");
-
-// // Configure Cloudinary
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//   api_key: process.env.CLOUDINARY_API_KEY,
-//   api_secret: process.env.CLOUDINARY_API_SECRET,
-// });
-
-// // Configure multer
-// const storage = multer.memoryStorage();
-// const upload = multer({
-//   storage,
-//   fileFilter: (req, file, cb) => {
-//     const allowedMimeTypes = ["image/jpeg", "image/png", "image/jpg", "video/mp4", "audio/mpeg"];
-//     if (allowedMimeTypes.includes(file.mimetype)) {
-//       cb(null, true);
-//     } else {
-//       cb(new Error("Only jpg, jpeg, png, mp4, and mp3 files are allowed"), false);
-//     }
-//   },
-// });
-
-// // POST route to create a post
-// router.post("/", upload.single("media"), async (req, res) => {
-//   try {
-//     console.log("Incoming Request Body:", req.body);
-//     console.log("Incoming File:", req.file);
-
-//     const { description } = req.body;
-
-//     // Validate fields
-//     if (!description || !req.file) {
-//       return res.status(400).json({ error: "Description and media file are required" });
-//     }
-
-//     // Upload file to Cloudinary
-//     const uploadToCloudinary = () =>
-//       new Promise((resolve, reject) => {
-//         const uploadStream = cloudinary.uploader.upload_stream(
-//           { resource_type: "auto", folder: "worknix_posts" },
-//           (error, result) => {
-//             if (error) reject(error);
-//             else resolve(result);
-//           }
-//         );
-//         uploadStream.end(req.file.buffer);
-//       });
-
-//     const cloudinaryResult = await uploadToCloudinary();
-
-//     // Save post to database
-//     const newPost = new Post({
-//       description,
-//       mediaUrl: cloudinaryResult.secure_url,
-//       mediaType: req.file.mimetype,
-//     });
-
-//     await newPost.save();
-
-//     console.log("Post saved successfully:", newPost);
-
-//     res.status(201).json({ message: "Post created successfully", post: newPost });
-//   } catch (error) {
-//     console.error("Error creating post:", error.message);
-//     res.status(500).json({ error: error.message });
-//   }
-// });
-
-// // PATCH route to like a post
-// router.patch("/:id/like", async (req, res) => {
-//   try {
-//     const { id } = req.params;
-
-//     // Find the post by ID and increment likes
-//     const updatedPost = await Post.findByIdAndUpdate(
-//       id,
-//       { $inc: { likes: 1 } }, // Increment likes by 1
-//       { new: true } // Return the updated document
-//     );
-
-//     if (!updatedPost) {
-//       return res.status(404).json({ error: "Post not found" });
-//     }
-
-//     res.status(200).json(updatedPost);
-//   } catch (error) {
-//     console.error("Error liking post:", error.message);
-//     res.status(500).json({ error: "Failed to like the post" });
-//   }
-// });
-
-// // POST route to add a comment to a post
-// router.post("/:id/comment", async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const { user, text } = req.body;
-
-//     if (!text || !user) {
-//       return res.status(400).json({ error: "User and comment text are required" });
-//     }
-
-//     // Find the post by ID and add a comment
-//     const post = await Post.findById(id);
-//     if (!post) {
-//       return res.status(404).json({ error: "Post not found" });
-//     }
-
-//     post.comments.push({ user, text });
-//     await post.save();
-
-//     res.status(201).json(post);
-//   } catch (error) {
-//     console.error("Error adding comment:", error.message);
-//     res.status(500).json({ error: "Failed to add comment" });
-//   }
-// });
-
-// // GET route to fetch all posts
-// router.get("/", async (req, res) => {
-//   try {
-//     const posts = await Post.find().sort({ createdAt: -1 }); // Fetch posts in descending order of creation
-//     res.status(200).json(posts);
-//   } catch (error) {
-//     console.error("Error fetching posts:", error.message);
-//     res.status(500).json({ error: "Failed to fetch posts" });
-//   }
-// });
-
-// module.exports = router;
-
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const Post = require("../models/Post");
-const User = require("../models/User"); // Import User model
 
 // Configure Cloudinary
 cloudinary.config({
@@ -161,22 +25,17 @@ const upload = multer({
   },
 });
 
-// 📌 POST route to create a post
+// POST route to create a post
 router.post("/", upload.single("media"), async (req, res) => {
   try {
     console.log("Incoming Request Body:", req.body);
     console.log("Incoming File:", req.file);
 
-    const { description, userId } = req.body;
+    const { description } = req.body;
 
-    if (!description || !req.file || !userId) {
-      return res.status(400).json({ error: "Description, media file, and userId are required" });
-    }
-
-    // Fetch user to get username
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
+    // Validate fields
+    if (!description || !req.file) {
+      return res.status(400).json({ error: "Description and media file are required" });
     }
 
     // Upload file to Cloudinary
@@ -196,8 +55,6 @@ router.post("/", upload.single("media"), async (req, res) => {
 
     // Save post to database
     const newPost = new Post({
-      user: userId,
-      username: user.username, // Store username directly
       description,
       mediaUrl: cloudinaryResult.secure_url,
       mediaType: req.file.mimetype,
@@ -206,6 +63,7 @@ router.post("/", upload.single("media"), async (req, res) => {
     await newPost.save();
 
     console.log("Post saved successfully:", newPost);
+
     res.status(201).json({ message: "Post created successfully", post: newPost });
   } catch (error) {
     console.error("Error creating post:", error.message);
@@ -213,15 +71,16 @@ router.post("/", upload.single("media"), async (req, res) => {
   }
 });
 
-// 📌 PATCH route to like a post
+// PATCH route to like a post
 router.patch("/:id/like", async (req, res) => {
   try {
     const { id } = req.params;
 
+    // Find the post by ID and increment likes
     const updatedPost = await Post.findByIdAndUpdate(
       id,
-      { $inc: { likes: 1 } },
-      { new: true }
+      { $inc: { likes: 1 } }, // Increment likes by 1
+      { new: true } // Return the updated document
     );
 
     if (!updatedPost) {
@@ -235,28 +94,23 @@ router.patch("/:id/like", async (req, res) => {
   }
 });
 
-// 📌 POST route to add a comment
+// POST route to add a comment to a post
 router.post("/:id/comment", async (req, res) => {
   try {
     const { id } = req.params;
-    const { userId, text } = req.body;
+    const { user, text } = req.body;
 
-    if (!text || !userId) {
+    if (!text || !user) {
       return res.status(400).json({ error: "User and comment text are required" });
     }
 
+    // Find the post by ID and add a comment
     const post = await Post.findById(id);
     if (!post) {
       return res.status(404).json({ error: "Post not found" });
     }
 
-    // Fetch user for username
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    post.comments.push({ user: userId, username: user.username, text });
+    post.comments.push({ user, text });
     await post.save();
 
     res.status(201).json(post);
@@ -266,13 +120,10 @@ router.post("/:id/comment", async (req, res) => {
   }
 });
 
-// 📌 GET route to fetch all posts
+// GET route to fetch all posts
 router.get("/", async (req, res) => {
   try {
-    const posts = await Post.find()
-      .populate("user", "username") // Populate username from user
-      .sort({ createdAt: -1 });
-
+    const posts = await Post.find().sort({ createdAt: -1 }); // Fetch posts in descending order of creation
     res.status(200).json(posts);
   } catch (error) {
     console.error("Error fetching posts:", error.message);
