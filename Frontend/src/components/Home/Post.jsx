@@ -873,6 +873,187 @@
 // };
 
 // export default Post;
+// import React, { useState, useEffect } from "react";
+// import { motion } from "framer-motion";
+// import { Heart, MessageCircle, Share2, MoreVertical, Send } from "lucide-react";
+
+// const API_BASE_URL = "https://worknix-addpost.onrender.com/api/posts";
+
+// const Post = () => {
+//   const [posts, setPosts] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     const fetchPosts = async () => {
+//       try {
+//         const response = await fetch(API_BASE_URL);
+//         if (!response.ok) throw new Error("Failed to fetch posts");
+//         const data = await response.json();
+//         setPosts(data);
+//       } catch (err) {
+//         console.error("Error fetching posts:", err);
+//         setError(err.message);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     fetchPosts();
+//   }, []);
+
+//   if (loading) return <p className="text-center text-gray-500">Loading posts...</p>;
+//   if (error) return <p className="text-center text-red-500">Error: {error}</p>;
+
+//   return (
+//     <div>
+//       {posts.map((post) => (
+//         <PostCard key={post._id} post={post} setPosts={setPosts} />
+//       ))}
+//     </div>
+//   );
+// };
+
+// const PostCard = ({ post, setPosts }) => {
+//   const [isLiked, setIsLiked] = useState(false);
+//   const [showComments, setShowComments] = useState(false);
+//   const [newComment, setNewComment] = useState("");
+//   const [localLikes, setLocalLikes] = useState(post.likes || 0);
+//   const [localComments, setLocalComments] = useState(post.comments || []);
+
+//   // **Handle Like API Call**
+//   const handleLike = async () => {
+//     try {
+//       const response = await fetch(`${API_BASE_URL}/${post._id}/like`, {
+//         method: "PATCH",
+//         headers: { "Content-Type": "application/json" },
+//       });
+
+//       if (!response.ok) throw new Error("Failed to like post");
+
+//       const updatedPost = await response.json();
+//       setLocalLikes(updatedPost.likes);
+//       setIsLiked(true);
+//     } catch (error) {
+//       console.error("Error liking post:", error);
+//     }
+//   };
+
+//   // **Handle Comment API Call**
+//   const handleComment = async (e) => {
+//     e.preventDefault();
+//     if (!newComment.trim()) return;
+
+//     try {
+//       const response = await fetch(`${API_BASE_URL}/${post._id}/comment`, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ user: "Current User", text: newComment }),
+//       });
+
+//       if (!response.ok) throw new Error("Failed to add comment");
+
+//       const updatedPost = await response.json();
+//       setLocalComments(updatedPost.comments);
+//       setNewComment("");
+//     } catch (error) {
+//       console.error("Error adding comment:", error);
+//     }
+//   };
+
+//   return (
+//     <motion.div
+//       className="bg-white rounded-xl shadow-md overflow-hidden p-4 mb-4"
+//       initial={{ opacity: 0, y: 20 }}
+//       animate={{ opacity: 1, y: 0 }}
+//       exit={{ opacity: 0, y: -20 }}
+//       layout
+//     >
+//       <div className="flex items-center justify-between">
+//         <div className="flex items-center gap-3">
+//           <img
+//             src={post.user?.avatar || "https://placehold.co/40"}
+//             alt={post.user?.name || "User"}
+//             className="w-10 h-10 rounded-full object-cover"
+//           />
+//           <div>
+//             <h3 className="font-semibold">{post.user?.name || "Unknown User"}</h3>
+//             <p className="text-sm text-gray-500">{post.timestamp}</p>
+//           </div>
+//         </div>
+//         <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+//           <MoreVertical size={20} className="text-gray-500" />
+//         </button>
+//       </div>
+
+//       <p className="mt-4">{post.description}</p>
+//       {post.mediaUrl && (
+//         <div className="mt-4 -mx-4">
+//           {post.mediaType?.startsWith("image") ? (
+//             <img src={post.mediaUrl} alt="Post Media" className="w-full" />
+//           ) : (
+//             <video controls className="w-full">
+//               <source src={post.mediaUrl} type={post.mediaType} />
+//             </video>
+//           )}
+//         </div>
+//       )}
+
+//       <div className="mt-4 flex items-center gap-6">
+//         <button
+//           onClick={handleLike}
+//           className="flex items-center gap-2 text-gray-500 hover:text-red-500 transition-colors"
+//         >
+//           <Heart size={20} className={isLiked ? "fill-red-500 text-red-500" : ""} />
+//           <span>{localLikes}</span>
+//         </button>
+//         <button
+//           onClick={() => setShowComments(!showComments)}
+//           className="flex items-center gap-2 text-gray-500 hover:text-teal-600 transition-colors"
+//         >
+//           <MessageCircle size={20} />
+//           <span>{localComments.length}</span>
+//         </button>
+//         <button className="flex items-center gap-2 text-gray-500 hover:text-teal-600 transition-colors">
+//           <Share2 size={20} />
+//         </button>
+//       </div>
+
+//       {showComments && (
+//         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-4 space-y-4">
+//           {localComments.map((comment) => (
+//             <div key={comment._id} className="flex items-start gap-3">
+//               <div className="w-8 h-8 rounded-full overflow-hidden">
+//                 <img
+//                   src="https://placehold.co/40"
+//                   alt={comment.user}
+//                   className="w-full h-full object-cover"
+//                 />
+//               </div>
+//               <div className="bg-gray-50 rounded-lg p-3">
+//                 <h4 className="font-medium">{comment.user}</h4>
+//                 <p>{comment.text}</p>
+//               </div>
+//             </div>
+//           ))}
+
+//           <form onSubmit={handleComment} className="flex items-center gap-3 mt-4">
+//             <input
+//               type="text"
+//               placeholder="Write a comment..."
+//               value={newComment}
+//               onChange={(e) => setNewComment(e.target.value)}
+//               className="w-full px-4 py-2 pr-10 rounded-full border border-gray-200 focus:ring-2 focus:ring-teal-500"
+//             />
+//             <button type="submit" disabled={!newComment.trim()} className="text-teal-600">
+//               <Send size={20} />
+//             </button>
+//           </form>
+//         </motion.div>
+//       )}
+//     </motion.div>
+//   );
+// };
+
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Heart, MessageCircle, Share2, MoreVertical, Send } from "lucide-react";
@@ -920,7 +1101,6 @@ const PostCard = ({ post, setPosts }) => {
   const [localLikes, setLocalLikes] = useState(post.likes || 0);
   const [localComments, setLocalComments] = useState(post.comments || []);
 
-  // **Handle Like API Call**
   const handleLike = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/${post._id}/like`, {
@@ -938,7 +1118,6 @@ const PostCard = ({ post, setPosts }) => {
     }
   };
 
-  // **Handle Comment API Call**
   const handleComment = async (e) => {
     e.preventDefault();
     if (!newComment.trim()) return;
@@ -947,7 +1126,7 @@ const PostCard = ({ post, setPosts }) => {
       const response = await fetch(`${API_BASE_URL}/${post._id}/comment`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user: "Current User", text: newComment }),
+        body: JSON.stringify({ user: post.username || "Unknown User", text: newComment }),
       });
 
       if (!response.ok) throw new Error("Failed to add comment");
@@ -972,11 +1151,11 @@ const PostCard = ({ post, setPosts }) => {
         <div className="flex items-center gap-3">
           <img
             src={post.user?.avatar || "https://placehold.co/40"}
-            alt={post.user?.name || "User"}
+            alt={post.username || "Unknown User"}
             className="w-10 h-10 rounded-full object-cover"
           />
           <div>
-            <h3 className="font-semibold">{post.user?.name || "Unknown User"}</h3>
+            <h3 className="font-semibold">{post.username || "Unknown User"}</h3>
             <p className="text-sm text-gray-500">{post.timestamp}</p>
           </div>
         </div>
@@ -1020,8 +1199,8 @@ const PostCard = ({ post, setPosts }) => {
 
       {showComments && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-4 space-y-4">
-          {localComments.map((comment) => (
-            <div key={comment._id} className="flex items-start gap-3">
+          {localComments.map((comment, index) => (
+            <div key={index} className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-full overflow-hidden">
                 <img
                   src="https://placehold.co/40"
@@ -1055,3 +1234,4 @@ const PostCard = ({ post, setPosts }) => {
 };
 
 export default Post;
+
