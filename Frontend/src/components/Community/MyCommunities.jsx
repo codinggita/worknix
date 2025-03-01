@@ -21,17 +21,17 @@ function MyCommunities() {
   ];
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">My Communities</h1>
+<div className="p-7 max-w-7xl w-full">
+<h1 className="text-3xl font-bold text-gray-800  mb-7">My Communities</h1>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols- md:grid-cols-2 lg:grid-cols-3 gap-6">
         {myCommunities.map((community) => (
           <div
             key={community.id}
             className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-all"
           >
             <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-">
                 <img
                   src={community.image}
                   alt={community.name}
