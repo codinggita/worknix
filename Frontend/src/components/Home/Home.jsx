@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, TrendingUp, Users, Calendar, Search, Hash, Star, ExternalLink } from 'lucide-react';
 import { CreatePost } from './CreatePost';
-import  Post  from './Post';
+import Post    from './Post';
 
 export function Home() {
   const [posts, setPosts] = useState([
