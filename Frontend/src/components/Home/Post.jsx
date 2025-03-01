@@ -1203,3 +1203,4 @@ const PostCard = ({ post, setPosts, user }) => {  // Ensure 'user' prop is passe
 };
 
 
+export default PostCard;
