@@ -1053,48 +1053,7 @@
 //     </motion.div>
 //   );
 // };
-
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Heart, MessageCircle, Share2, MoreVertical, Send } from "lucide-react";
-
-const API_BASE_URL = "https://worknix-addpost.onrender.com/api/posts";
-
-const Post = () => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch(API_BASE_URL);
-        if (!response.ok) throw new Error("Failed to fetch posts");
-        const data = await response.json();
-        setPosts(data);
-      } catch (err) {
-        console.error("Error fetching posts:", err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchPosts();
-  }, []);
-
-  if (loading) return <p className="text-center text-gray-500">Loading posts...</p>;
-  if (error) return <p className="text-center text-red-500">Error: {error}</p>;
-
-  return (
-    <div>
-      {posts.map((post) => (
-        <PostCard key={post._id} post={post} setPosts={setPosts} />
-      ))}
-    </div>
-  );
-};
-
-const PostCard = ({ post, setPosts }) => {
+const PostCard = ({ post, setPosts, user }) => {  // Ensure 'user' prop is passed
   const [isLiked, setIsLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [newComment, setNewComment] = useState("");
@@ -1122,11 +1081,16 @@ const PostCard = ({ post, setPosts }) => {
     e.preventDefault();
     if (!newComment.trim()) return;
 
+    if (!user || !user._id) {
+      alert("Please log in to comment.");
+      return;
+    }
+
     try {
       const response = await fetch(`${API_BASE_URL}/${post._id}/comment`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user: post.username || "Unknown User", text: newComment }),
+        body: JSON.stringify({ userId: user._id, text: newComment }),  // Send userId instead of username
       });
 
       if (!response.ok) throw new Error("Failed to add comment");
@@ -1147,15 +1111,16 @@ const PostCard = ({ post, setPosts }) => {
       exit={{ opacity: 0, y: -20 }}
       layout
     >
+      {/* USER INFO */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <img
             src={post.user?.avatar || "https://placehold.co/40"}
-            alt={post.username || "Unknown User"}
+            alt={post.user?.username || "Unknown User"}  // Correct username
             className="w-10 h-10 rounded-full object-cover"
           />
           <div>
-            <h3 className="font-semibold">{post.username || "Unknown User"}</h3>
+            <h3 className="font-semibold">{post.user?.username || "Unknown User"}</h3> {/* Updated */}
             <p className="text-sm text-gray-500">{post.timestamp}</p>
           </div>
         </div>
@@ -1164,6 +1129,7 @@ const PostCard = ({ post, setPosts }) => {
         </button>
       </div>
 
+      {/* POST DESCRIPTION & MEDIA */}
       <p className="mt-4">{post.description}</p>
       {post.mediaUrl && (
         <div className="mt-4 -mx-4">
@@ -1177,6 +1143,7 @@ const PostCard = ({ post, setPosts }) => {
         </div>
       )}
 
+      {/* LIKE, COMMENT, SHARE */}
       <div className="mt-4 flex items-center gap-6">
         <button
           onClick={handleLike}
@@ -1197,6 +1164,7 @@ const PostCard = ({ post, setPosts }) => {
         </button>
       </div>
 
+      {/* COMMENTS SECTION */}
       {showComments && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-4 space-y-4">
           {localComments.map((comment, index) => (
@@ -1204,17 +1172,18 @@ const PostCard = ({ post, setPosts }) => {
               <div className="w-8 h-8 rounded-full overflow-hidden">
                 <img
                   src="https://placehold.co/40"
-                  alt={comment.user}
+                  alt={comment.user?.username || "Anonymous"}
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="bg-gray-50 rounded-lg p-3">
-                <h4 className="font-medium">{comment.user}</h4>
+                <h4 className="font-medium">{comment.user?.username || "Anonymous"}</h4> {/* Updated */}
                 <p>{comment.text}</p>
               </div>
             </div>
           ))}
 
+          {/* ADD COMMENT */}
           <form onSubmit={handleComment} className="flex items-center gap-3 mt-4">
             <input
               type="text"
@@ -1233,5 +1202,4 @@ const PostCard = ({ post, setPosts }) => {
   );
 };
 
-export default Post;
 
