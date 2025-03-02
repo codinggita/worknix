@@ -903,7 +903,7 @@ export function Main() {
             >
               <div className="flex items-center gap-2 mb-4 text-[#008080]">
                 <TrendingUp size={20} />
-                <h2 className="font-semibold">Trending Topics</h2>
+                <h2 className="font-semibold">Trending Communities</h2>
               </div>
               <div className="space-y-3">
                 {trendingTopics.map((topic) => (
