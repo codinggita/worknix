@@ -387,7 +387,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import Signup from "./components/Signup/Signup";
  import Auth from "./components/Auth/Auth"
 // import Home from "./components/Home/Home";
-import { Home } from "./components/Home/Home";
+import  Home  from "./components/Home/Home";
 import Community from "./components/Community/Community";
 import TodaysStats from "./components/TodaysStats/TodaysStats";
 import UserProfile from "./components/UserProfile/UserProfile";
