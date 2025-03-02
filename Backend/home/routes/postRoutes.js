@@ -319,11 +319,11 @@ router.post("/", upload.single("media"), async (req, res) => {
     console.log("Incoming Request Body:", req.body);
     console.log("Incoming File:", req.file);
 
-    const { description, username } = req.body;
+    const { description, userId, username } = req.body;
 
     // ✅ Validate required fields
-    if (!description || !req.file || !username) {
-      return res.status(400).json({ error: "Description, username, and media file are required" });
+    if (!description || !req.file || !userId || !username) {
+      return res.status(400).json({ error: "Description, username, userId, and media file are required" });
     }
 
     // ✅ Upload media to Cloudinary
@@ -334,7 +334,10 @@ router.post("/", upload.single("media"), async (req, res) => {
       description,
       mediaUrl: cloudinaryResult.secure_url,
       mediaType: req.file.mimetype,
-      user: username, // ✅ Store username correctly
+      user: {
+        id: userId,
+        name: username,
+      },
       likes: 0,
       comments: [],
     });
@@ -376,10 +379,10 @@ router.patch("/:id/like", async (req, res) => {
 router.post("/:id/comment", async (req, res) => {
   try {
     const { id } = req.params;
-    const { user, text } = req.body;
+    const { userId, username, text } = req.body;
 
-    if (!text || !user) {
-      return res.status(400).json({ error: "User and comment text are required" });
+    if (!text || !userId || !username) {
+      return res.status(400).json({ error: "UserId, username, and comment text are required" });
     }
 
     // Find the post by ID and add a comment
@@ -388,7 +391,11 @@ router.post("/:id/comment", async (req, res) => {
       return res.status(404).json({ error: "Post not found" });
     }
 
-    post.comments.push({ user, text });
+    post.comments.push({
+      user: { id: userId, name: username },
+      text,
+    });
+
     await post.save();
 
     res.status(201).json(post);

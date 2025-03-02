@@ -1065,7 +1065,6 @@ const Post = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const currentUser = JSON.parse(localStorage.getItem("user")) || null;
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -1073,6 +1072,7 @@ const Post = () => {
         const response = await fetch(API_BASE_URL);
         if (!response.ok) throw new Error("Failed to fetch posts");
         const data = await response.json();
+        console.log("Fetched Posts:", data); // Debugging
         setPosts(data);
       } catch (err) {
         console.error("Error fetching posts:", err);
@@ -1090,23 +1090,28 @@ const Post = () => {
   return (
     <div>
       {posts.map((post) => (
-        <PostCard key={post._id} post={post} setPosts={setPosts} currentUser={currentUser} />
+        <PostCard key={post._id} post={post} setPosts={setPosts} />
       ))}
     </div>
   );
 };
 
-const PostCard = ({ post, setPosts, currentUser }) => {
-  const [isLiked, setIsLiked] = useState(post.isLiked || false);
+const PostCard = ({ post, setPosts }) => {
+  const [isLiked, setIsLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [newComment, setNewComment] = useState("");
   const [localLikes, setLocalLikes] = useState(post.likes || 0);
   const [localComments, setLocalComments] = useState(post.comments || []);
 
+  const username = post.user?.name || post.username || "Unknown User";
+  const avatar = post.user?.avatar || "https://placehold.co/40/000000/FFF?text= ";
+
+  // Handle Like
   const handleLike = async () => {
-    const newLikedState = !isLiked;
-    setIsLiked(newLikedState);
-    setLocalLikes((prev) => (newLikedState ? prev + 1 : prev - 1));
+    if (isLiked) return;
+
+    setLocalLikes((prev) => prev + 1);
+    setIsLiked(true);
 
     try {
       const response = await fetch(`${API_BASE_URL}/${post._id}/like`, {
@@ -1114,23 +1119,28 @@ const PostCard = ({ post, setPosts, currentUser }) => {
         headers: { "Content-Type": "application/json" },
       });
 
-      if (!response.ok) throw new Error("Failed to update like");
+      if (!response.ok) throw new Error("Failed to like post");
     } catch (error) {
       console.error("Error liking post:", error);
-      setIsLiked(!newLikedState);
-      setLocalLikes((prev) => (newLikedState ? prev - 1 : prev + 1));
+      setLocalLikes((prev) => prev - 1);
+      setIsLiked(false);
     }
   };
 
+  // Handle Comment
   const handleComment = async (e) => {
     e.preventDefault();
-    if (!newComment.trim() || !currentUser) return;
+    if (!newComment.trim()) return;
+
+    const tempComment = { _id: Date.now().toString(), user: "Current User", text: newComment };
+    setLocalComments((prev) => [...prev, tempComment]);
+    setNewComment("");
 
     try {
       const response = await fetch(`${API_BASE_URL}/${post._id}/comment`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user: currentUser.name, text: newComment }),
+        body: JSON.stringify({ user: "Current User", text: newComment }),
       });
 
       if (!response.ok) throw new Error("Failed to add comment");
@@ -1139,21 +1149,23 @@ const PostCard = ({ post, setPosts, currentUser }) => {
       setLocalComments(updatedPost.comments);
     } catch (error) {
       console.error("Error adding comment:", error);
-    } finally {
-      setNewComment("");
+      setLocalComments((prev) => prev.filter((c) => c._id !== tempComment._id));
     }
   };
 
   return (
-    <motion.div className="bg-white rounded-xl shadow-md overflow-hidden p-4 mb-4">
-      {/* Post Header */}
+    <motion.div
+      className="bg-white rounded-xl shadow-md overflow-hidden p-4 mb-4"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      layout
+    >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          {/* Black Circle Avatar */}
-          <div className="w-10 h-10 rounded-full bg-black"></div>
-
+          <img src={avatar} alt={username} className="w-10 h-10 rounded-full object-cover" />
           <div>
-            <h3 className="font-semibold">{post.user?.name || "Unknown User"}</h3>
+            <h3 className="font-semibold">{username}</h3>
             <p className="text-sm text-gray-500">
               {new Date(post.timestamp).toLocaleString("en-US", {
                 dateStyle: "medium",
@@ -1167,27 +1179,31 @@ const PostCard = ({ post, setPosts, currentUser }) => {
         </button>
       </div>
 
-      {/* Post Content */}
       <p className="mt-4">{post.description}</p>
       {post.mediaUrl && (
         <div className="mt-4 -mx-4">
           {post.mediaType?.startsWith("image") ? (
-            <img src={post.mediaUrl} alt="Post Media" className="w-full rounded-lg" />
+            <img src={post.mediaUrl} alt="Post Media" className="w-full" />
           ) : (
-            <video controls className="w-full rounded-lg">
+            <video controls className="w-full">
               <source src={post.mediaUrl} type={post.mediaType} />
             </video>
           )}
         </div>
       )}
 
-      {/* Post Actions */}
       <div className="mt-4 flex items-center gap-6">
-        <button onClick={handleLike} className="flex items-center gap-2 text-gray-500 hover:text-red-500 transition-colors">
+        <button
+          onClick={handleLike}
+          className="flex items-center gap-2 text-gray-500 hover:text-red-500 transition-colors"
+        >
           <Heart size={20} className={isLiked ? "fill-red-500 text-red-500" : ""} />
           <span>{localLikes}</span>
         </button>
-        <button onClick={() => setShowComments(!showComments)} className="flex items-center gap-2 text-gray-500 hover:text-teal-600 transition-colors">
+        <button
+          onClick={() => setShowComments(!showComments)}
+          className="flex items-center gap-2 text-gray-500 hover:text-teal-600 transition-colors"
+        >
           <MessageCircle size={20} />
           <span>{localComments.length}</span>
         </button>
@@ -1196,14 +1212,11 @@ const PostCard = ({ post, setPosts, currentUser }) => {
         </button>
       </div>
 
-      {/* Comments Section */}
       {showComments && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-4 space-y-4">
           {localComments.map((comment) => (
             <div key={comment._id} className="flex items-start gap-3">
-              {/* Black Circle Avatar for Comments */}
-              <div className="w-8 h-8 rounded-full bg-black"></div>
-
+              <div className="w-8 h-8 rounded-full overflow-hidden bg-black"></div>
               <div className="bg-gray-50 rounded-lg p-3">
                 <h4 className="font-medium">{comment.user}</h4>
                 <p>{comment.text}</p>
@@ -1211,21 +1224,18 @@ const PostCard = ({ post, setPosts, currentUser }) => {
             </div>
           ))}
 
-          {/* Comment Input */}
-          {currentUser && (
-            <form onSubmit={handleComment} className="flex items-center gap-3 mt-4">
-              <input
-                type="text"
-                placeholder="Write a comment..."
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                className="w-full px-4 py-2 pr-10 rounded-full border border-gray-200 focus:ring-2 focus:ring-teal-500"
-              />
-              <button type="submit" disabled={!newComment.trim()} className="text-teal-600">
-                <Send size={20} />
-              </button>
-            </form>
-          )}
+          <form onSubmit={handleComment} className="flex items-center gap-3 mt-4">
+            <input
+              type="text"
+              placeholder="Write a comment..."
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              className="w-full px-4 py-2 pr-10 rounded-full border border-gray-200 focus:ring-2 focus:ring-teal-500"
+            />
+            <button type="submit" disabled={!newComment.trim()} className="text-teal-600">
+              <Send size={20} />
+            </button>
+          </form>
         </motion.div>
       )}
     </motion.div>
