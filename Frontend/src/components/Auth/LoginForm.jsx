@@ -849,21 +849,14 @@
 //     </AuthLayout>
 //   );
 // }
-
-
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
 import { AuthLayout } from "./AuthLayout";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../AuthContext";
 
 export function LoginForm() {
-  const { login } = useAuth();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -874,46 +867,39 @@ export function LoginForm() {
     setIsLoading(true);
     setErrorMessage("");
 
-    if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      setErrorMessage("Please enter a valid email.");
-      setIsLoading(false);
-      return;
-    }
-
-    if (formData.password.length < 6) {
-      setErrorMessage("Password must be at least 6 characters long.");
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      const response = await fetch(
-        "https://worknix-login-and-signup.onrender.com/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+        credentials: "include", // Ensures cookies are sent if used
+      });
+
+      if (!response.ok) {
+        throw new Error("Login failed. Please check your credentials.");
+      }
 
       const data = await response.json();
 
-      if (response.ok) {
-        console.log("Login successful:", data);
-        login(data.token, data.user);
-        navigate("/home");
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        sessionStorage.setItem("username", data.user.username); // Store username
+        navigate("/home"); // Redirect user after login
       } else {
-        setErrorMessage(data.message || "Login failed. Please try again.");
+        throw new Error("Invalid response from server.");
       }
     } catch (error) {
-      setErrorMessage("An error occurred. Please try again.");
+      setErrorMessage(error.message);
       console.error("Error logging in:", error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  const inputClasses =
+    "w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200";
+  const buttonClasses =
+    "w-full bg-[#008080] text-white py-3 rounded-lg hover:bg-teal-700 transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden";
 
   return (
     <AuthLayout title="Welcome Back">
@@ -928,41 +914,83 @@ export function LoginForm() {
           </motion.div>
         )}
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
           <input
             type="email"
-            placeholder="Email"
-            className="input-class"
+            placeholder="Email or Mobile Number"
+            className={inputClasses}
             value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
             required
-            aria-label="Email"
           />
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="relative">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+          className="relative"
+        >
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Password"
-            className="input-class"
+            className={inputClasses}
             value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
             required
-            aria-label="Password"
-            autoComplete="current-password"
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="password-toggle"
-            aria-label={showPassword ? "Hide password" : "Show password"}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
           >
             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
         </motion.div>
 
-        <motion.button type="submit" className="button-class" disabled={isLoading}>
-          {isLoading ? <div className="spinner"></div> : "Login"}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.2 }}
+          className="flex items-center justify-between"
+        >
+          <label className="flex items-center">
+            <input
+              type="checkbox"
+              className="rounded border-gray-300 text-teal-600 focus:ring-teal-500 transition-colors"
+            />
+            <span className="ml-2 text-sm text-gray-600">Remember me</span>
+          </label>
+          <a
+            href="#"
+            className="text-sm text-teal-600 hover:text-teal-500 transition-colors font-medium"
+          >
+            Forgot Password?
+          </a>
+        </motion.div>
+
+        <motion.button
+          type="submit"
+          className={buttonClasses}
+          disabled={isLoading}
+          whileTap={{ scale: 0.98 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.3 }}
+        >
+          {isLoading ? (
+            <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+          ) : (
+            "Login"
+          )}
         </motion.button>
       </form>
     </AuthLayout>
