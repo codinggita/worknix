@@ -1017,7 +1017,7 @@ import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
 import { AuthLayout } from "./AuthLayout";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../UserContext"; // Import the context
+import { UserContext } from "../UserContext"; // Ensure correct import
 
 export function LoginForm() {
   const { setUsername } = useContext(UserContext); // Access setUsername from context

@@ -22,7 +22,7 @@
 import React, { createContext, useState, useContext } from "react";
 
 // Create the UserContext
-const UserContext = createContext();
+export const UserContext = createContext();
 
 // UserProvider component to wrap the part of the app that needs access to the context
 export const UserProvider = ({ children }) => {

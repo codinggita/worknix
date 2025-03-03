@@ -564,7 +564,7 @@
 // App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { UserProvider } from "./UserContext"; // Import UserProvider
+import { UserProvider } from "./components/UserContext"; // Import UserProvider
 
 import LoginForm from "./components/Auth/LoginForm"; // Your LoginForm component
 import Home from "./components/Home/Home"; // Your Home component
