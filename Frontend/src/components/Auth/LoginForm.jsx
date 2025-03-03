@@ -851,16 +851,15 @@
 // }
 
 
-
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
 import { AuthLayout } from "./AuthLayout";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../AuthContext"; // ✅ Ensure correct import
+import { useAuth } from "../../AuthContext";
 
 export function LoginForm() {
-  const { login } = useAuth(); // ✅ Get the login function correctly
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -875,9 +874,21 @@ export function LoginForm() {
     setIsLoading(true);
     setErrorMessage("");
 
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      setErrorMessage("Please enter a valid email.");
+      setIsLoading(false);
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setErrorMessage("Password must be at least 6 characters long.");
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const response = await fetch(
-        "https://worknix-login-and-signup.onrender.com/login", // ✅ Fixed URL spelling
+        "https://worknix-login-and-signup.onrender.com/login",
         {
           method: "POST",
           headers: {
@@ -891,7 +902,7 @@ export function LoginForm() {
 
       if (response.ok) {
         console.log("Login successful:", data);
-        login(data.token, data.user); // ✅ Call login function from AuthContext
+        login(data.token, data.user);
         navigate("/home");
       } else {
         setErrorMessage(data.message || "Login failed. Please try again.");
@@ -908,7 +919,11 @@ export function LoginForm() {
     <AuthLayout title="Welcome Back">
       <form onSubmit={handleSubmit} className="space-y-6">
         {errorMessage && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-red-600 bg-red-100 p-2 rounded-md">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-red-600 bg-red-100 p-2 rounded-md"
+          >
             {errorMessage}
           </motion.div>
         )}
@@ -916,11 +931,12 @@ export function LoginForm() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <input
             type="email"
-            placeholder="Email or Mobile Number"
+            placeholder="Email"
             className="input-class"
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             required
+            aria-label="Email"
           />
         </motion.div>
 
@@ -932,11 +948,14 @@ export function LoginForm() {
             value={formData.password}
             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             required
+            aria-label="Password"
+            autoComplete="current-password"
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
             className="password-toggle"
+            aria-label={showPassword ? "Hide password" : "Show password"}
           >
             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
