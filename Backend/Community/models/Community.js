@@ -1,35 +1,13 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
-const communitySchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  description: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  image: {
-    type: String, // Stores the image URL
-    default: "https://via.placeholder.com/150"
-  },
-  isPrivate: {
-    type: Boolean,
-    default: false
-  },
-  members: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User" // Reference to the User model
-  }],
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true
-  }
+const CommunitySchema = new mongoose.Schema({
+  name: { type: String, required: true, unique: true },
+  description: { type: String },
+  avatar: { type: String },
+  isPrivate: { type: Boolean, default: false },
+  members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  admins: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  vipUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 }, { timestamps: true });
 
-const Community = mongoose.model("Community", communitySchema);
-
-module.exports = Community;
+export default mongoose.model('Community', CommunitySchema);

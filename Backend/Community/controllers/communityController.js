@@ -1,81 +1,62 @@
-const Community = require("../models/Community");
+import Community from '../models/Community.js';
+import User from '../models/User.js';
+import sendEmail from '../utils/emailService.js';
 
-// Create a community
-const createCommunity = async (req, res) => {
+// Create Community
+export const createCommunity = async (req, res) => {
   try {
     const { name, description, isPrivate } = req.body;
-    const newCommunity = new Community({ name, description, isPrivate });
-    const savedCommunity = await newCommunity.save();
-    res.status(201).json(savedCommunity);
+    const adminId = req.user.id;
+
+    const community = new Community({ 
+      name, description, isPrivate, 
+      admins: [adminId], 
+      members: [adminId] 
+    });
+
+    await community.save();
+    res.status(201).json(community);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
-// Get all communities
-const getAllCommunities = async (req, res) => {
+// Invite User (Admin Only)
+export const inviteUser = async (req, res) => {
   try {
-    const communities = await Community.find();
-    res.json(communities);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+    const { email, communityId } = req.body;
+    const adminId = req.user.id;
 
-// Get a community by ID
-const getCommunityById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const community = await Community.findById(id);
-    if (!community) {
-      return res.status(404).json({ message: "Community not found" });
-    }
-    res.json(community);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-// Update a community
-const updateCommunity = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const updatedCommunity = await Community.findByIdAndUpdate(
-      id,
-      req.body,
-      { new: true, runValidators: true } // Return the updated document and validate it
-    );
-
-    if (!updatedCommunity) {
-      return res.status(404).json({ message: "Community not found" });
+    const community = await Community.findById(communityId);
+    if (!community.admins.includes(adminId)) {
+      return res.status(403).json({ message: "Only admins can invite users" });
     }
 
-    res.json(updatedCommunity);
+    sendEmail(email, `You are invited to join ${community.name}`, "Click the link to join...");
+    res.status(200).json({ message: "Invitation sent" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
-// Delete a community
-const deleteCommunity = async (req, res) => {
+// Make User VIP (Admin Only)
+export const makeVIP = async (req, res) => {
   try {
-    const { id } = req.params;
-    const deletedCommunity = await Community.findByIdAndDelete(id);
+    const { userId, communityId } = req.body;
+    const adminId = req.user.id;
 
-    if (!deletedCommunity) {
-      return res.status(404).json({ message: "Community not found" });
+    const community = await Community.findById(communityId);
+    if (!community.admins.includes(adminId)) {
+      return res.status(403).json({ message: "Only admins can make VIPs" });
     }
 
-    res.json({ message: "Community deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+    if (!community.vipUsers.includes(userId)) {
+      community.vipUsers.push(userId);
+      await community.save();
+    }
 
-module.exports = {
-  createCommunity,
-  getAllCommunities,
-  getCommunityById,
-  updateCommunity,
-  deleteCommunity,
+    res.status(200).json({ message: "User is now VIP" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
