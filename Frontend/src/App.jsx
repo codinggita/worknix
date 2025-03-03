@@ -472,36 +472,182 @@
 
 // export default App;
 
+
+// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// // Import necessary components
+// import Auth from "./components/Auth/Auth";
+// import Home from "./components/Home/Home";
+// import Community from "./components/Community/Community";
+// import TodaysStats from "./components/TodaysStats/TodaysStats";
+// import UserProfile from "./components/UserProfile/UserProfile";
+// import Action from "./components/Action/Action";
+// import WorkflowPage from "./components/Workflow/Workflow"; // Import the Workflow component
+// import ProtectedRoute from "./components/ProtectedRoute"; // Ensure the path is correct
+// import Attendance from "./components/Attendance/Attendance"; // Import the Attendance component
+
+// function App() {
+//   return (
+//     <Router>
+//       <Routes>
+//         {/* Public Routes */}
+//         <Route path="/" element={<Auth />} />
+
+//         {/* Protected Routes */}
+//         <Route
+//           path="/home"
+//           element={
+//             <ProtectedRoute>
+//               <Home />
+//             </ProtectedRoute>
+//           }
+//         />
+
+//         {/* Community Route: Allow nested routes */}
+//         <Route
+//           path="/community/*"
+//           element={
+//             <ProtectedRoute>
+//               <Community />
+//             </ProtectedRoute>
+//           }
+//         />
+
+//         {/* Other protected routes */}
+//         <Route
+//           path="/todays-stats"
+//           element={
+//             <ProtectedRoute>
+//               <TodaysStats />
+//             </ProtectedRoute>
+//           }
+//         />
+//         <Route
+//           path="/user-profile"
+//           element={
+//             <ProtectedRoute>
+//               <UserProfile />
+//             </ProtectedRoute>
+//           }
+//         />
+//         <Route
+//           path="/actions"
+//           element={
+//             <ProtectedRoute>
+//               <Action />
+//             </ProtectedRoute>
+//           }
+//         />
+//         <Route
+//           path="/workflow/*"
+//           element={
+//             <ProtectedRoute>
+//               <WorkflowPage />
+//             </ProtectedRoute>
+//           }
+//         />
+//         <Route
+//           path="/attendance"
+//           element={
+//             <ProtectedRoute>
+//               <Attendance />
+//             </ProtectedRoute>
+//           }
+//         />
+//       </Routes>
+//     </Router>
+//   );
+// }
+
+// export default App;
+
+
+// App.jsx
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Auth from "./components/Auth/Auth";
-import Home from "./components/Home/Home";
-import Community from "./components/Community/Community";
+import { UserProvider } from "./UserContext"; // Import UserProvider
+
+import LoginForm from "./components/Auth/LoginForm"; // Your LoginForm component
+import Home from "./components/Home/Home"; // Your Home component
+import Community from "./components/Community/Community"; // Your Community component
 import TodaysStats from "./components/TodaysStats/TodaysStats";
 import UserProfile from "./components/UserProfile/UserProfile";
 import Action from "./components/Action/Action";
-import WorkflowPage from "./components/Workflow/Workflow";
-import Attendance from "./components/Attendance/Attendance";
-import ProtectedRoute from "./components/ProtectedRoute";
+import WorkflowPage from "./components/Workflow/Workflow"; // Your Workflow component
+import ProtectedRoute from "./components/ProtectedRoute"; // Ensure the path is correct
+import Attendance from "./components/Attendance/Attendance"; // Your Attendance component
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {/* Public Route */}
-        <Route path="/" element={<Auth />} />
+    <UserProvider> {/* Wrap the entire app with UserProvider */}
+      <Router>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<LoginForm />} />
 
-        {/* Protected Routes Group */}
-        <Route element={<ProtectedRoute />}>
-          <Route path="/home" element={<Home />} />
-          <Route path="/community/*" element={<Community />} />
-          <Route path="/todays-stats" element={<TodaysStats />} />
-          <Route path="/user-profile" element={<UserProfile />} />
-          <Route path="/actions" element={<Action />} />
-          <Route path="/workflow/*" element={<WorkflowPage />} />
-          <Route path="/attendance" element={<Attendance />} />
-        </Route>
-      </Routes>
-    </Router>
+          {/* Protected Routes */}
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Community Route */}
+          <Route
+            path="/community/*"
+            element={
+              <ProtectedRoute>
+                <Community />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Other protected routes */}
+          <Route
+            path="/todays-stats"
+            element={
+              <ProtectedRoute>
+                <TodaysStats />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/user-profile"
+            element={
+              <ProtectedRoute>
+                <UserProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/actions"
+            element={
+              <ProtectedRoute>
+                <Action />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/workflow/*"
+            element={
+              <ProtectedRoute>
+                <WorkflowPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/attendance"
+            element={
+              <ProtectedRoute>
+                <Attendance />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </Router>
+    </UserProvider>
   );
 }
 
