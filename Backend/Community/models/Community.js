@@ -1,13 +1,13 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const CommunitySchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
-  description: { type: String },
-  avatar: { type: String },
+  description: { type: String, required: true },
+  profilePhoto: { type: String }, // Cloudinary URL
   isPrivate: { type: Boolean, default: false },
+  admin: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  admins: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  vipUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 }, { timestamps: true });
 
-export default mongoose.model('Community', CommunitySchema);
+module.exports = mongoose.model('Community', CommunitySchema);

@@ -1,11 +1,11 @@
-import express from 'express';
-import { createCommunity, inviteUser, makeVIP } from '../controllers/communityController.js';
-import { protect, isAdmin } from '../middleware/authMiddleware.js';
-
+const express = require('express');
+const { createCommunity, deleteCommunity, addMember, removeMember, getCommunities } = require('../controllers/communityController');
 const router = express.Router();
 
-router.post('/create', protect, createCommunity);
-router.post('/invite', protect, inviteUser);
-router.post('/make-vip', protect, makeVIP);
+router.post('/create', createCommunity);
+router.delete('/:id', deleteCommunity);
+router.post('/:id/add-member', addMember);
+router.delete('/:id/remove-member', removeMember);
+router.get('/explore', getCommunities);
 
-export default router;
+module.exports = router;

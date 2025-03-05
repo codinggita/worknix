@@ -1,17 +1,18 @@
-import Community from '../models/Community.js';
-import User from '../models/User.js';
-import sendEmail from '../utils/emailService.js';
+const Community = require('../models/Community');
+const User = require('../models/User');
 
-// Create Community
-export const createCommunity = async (req, res) => {
+// Create a community
+exports.createCommunity = async (req, res) => {
   try {
-    const { name, description, isPrivate } = req.body;
-    const adminId = req.user.id;
+    const { name, description, profilePhoto, isPrivate, admin } = req.body;
 
-    const community = new Community({ 
-      name, description, isPrivate, 
-      admins: [adminId], 
-      members: [adminId] 
+    const community = new Community({
+      name,
+      description,
+      profilePhoto,
+      isPrivate,
+      admin,
+      members: [admin] // Admin is the first member
     });
 
     await community.save();
@@ -21,41 +22,130 @@ export const createCommunity = async (req, res) => {
   }
 };
 
-// Invite User (Admin Only)
-export const inviteUser = async (req, res) => {
+// Delete a community (Admin only)
+exports.deleteCommunity = async (req, res) => {
   try {
-    const { email, communityId } = req.body;
-    const adminId = req.user.id;
+    const { id } = req.params;
+    const community = await Community.findById(id);
 
-    const community = await Community.findById(communityId);
-    if (!community.admins.includes(adminId)) {
-      return res.status(403).json({ message: "Only admins can invite users" });
+    if (!community) return res.status(404).json({ message: 'Community not found' });
+
+    // Check if the requester is the admin
+    if (req.user.id !== community.admin.toString()) {
+      return res.status(403).json({ message: 'Only the admin can delete the community' });
     }
 
-    sendEmail(email, `You are invited to join ${community.name}`, "Click the link to join...");
-    res.status(200).json({ message: "Invitation sent" });
+    await Community.findByIdAndDelete(id);
+    res.json({ message: 'Community deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Make User VIP (Admin Only)
-export const makeVIP = async (req, res) => {
-  try {
-    const { userId, communityId } = req.body;
-    const adminId = req.user.id;
+// // Add a member to a community
+// exports.addMember = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { userId } = req.body;
+//     const community = await Community.findById(id);
 
-    const community = await Community.findById(communityId);
-    if (!community.admins.includes(adminId)) {
-      return res.status(403).json({ message: "Only admins can make VIPs" });
-    }
+//     if (!community) return res.status(404).json({ message: 'Community not found' });
 
-    if (!community.vipUsers.includes(userId)) {
-      community.vipUsers.push(userId);
+//     if (community.members.includes(userId)) {
+//       return res.status(400).json({ message: 'User is already a member' });
+//     }
+
+//     // If it's private, only admin can add members
+//     if (community.isPrivate && req.user.id !== community.admin.toString()) {
+//       return res.status(403).json({ message: 'Only admin can add members to a private community' });
+//     }
+
+//     community.members.push(userId);
+//     await community.save();
+
+//     res.json({ message: 'Member added successfully' });
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
+
+// Add a member to a community
+exports.addMember = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { userId } = req.body;
+  
+      console.log("Community ID:", id);
+      console.log("User ID to add:", userId);
+      console.log("Request User:", req.user); // Check if req.user exists
+  
+      // Find the community by ID
+      const community = await Community.findById(id);
+  
+      if (!community) {
+        console.log("Community not found");
+        return res.status(404).json({ message: 'Community not found' });
+      }
+  
+      console.log("Community found:", community);
+  
+      // Check if user is already a member
+      if (community.members.includes(userId)) {
+        console.log("User already a member");
+        return res.status(400).json({ message: 'User is already a member' });
+      }
+  
+      // If it's private, only the admin can add members
+      if (community.isPrivate) {
+        console.log("Community is private. Checking admin...");
+        if (!req.user || req.user.id !== community.admin.toString()) {
+          console.log("Unauthorized: Only admin can add members");
+          return res.status(403).json({ message: 'Only admin can add members to a private community' });
+        }
+      }
+  
+      console.log("Adding user to the community...");
+      community.members.push(userId);
       await community.save();
+  
+      console.log("Member added successfully");
+      res.json({ message: 'Member added successfully' });
+    } catch (error) {
+      console.log("Error:", error.message);
+      res.status(500).json({ message: error.message });
+    }
+  };
+  
+
+// Remove a member from a community (Admin only)
+exports.removeMember = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { userId } = req.body;
+    const community = await Community.findById(id);
+
+    if (!community) return res.status(404).json({ message: 'Community not found' });
+
+    // Only admin can remove a member
+    if (req.user.id !== community.admin.toString()) {
+      return res.status(403).json({ message: 'Only admin can remove members' });
     }
 
-    res.status(200).json({ message: "User is now VIP" });
+    community.members = community.members.filter(member => member.toString() !== userId);
+    await community.save();
+
+    res.json({ message: 'Member removed successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Get public communities for explore section
+exports.getCommunities = async (req, res) => {
+  try {
+    const communities = await Community.find({ isPrivate: false });
+    res.json(communities);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
