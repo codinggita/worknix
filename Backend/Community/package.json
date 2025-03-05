@@ -1,25 +1,13 @@
 {
-    "name": "community-backend",
-    "version": "1.0.0",
-    "description": "Backend for the Community Chat application",
-    "main": "server.js",
-    "scripts": {
-        "start": "node server.js",
-        "server": "nodemon server.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "keywords": [],
-    "author": "Your Name",
-    "license": "MIT",
-    "dependencies": {
-        "bcryptjs": "^2.4.3",
-        "cors": "^2.8.5",
-        "dotenv": "^16.4.7",
-        "express": "^4.21.2",
-        "jsonwebtoken": "^9.0.1",
-        "mongoose": "^7.8.6"
-    },
-    "devDependencies": {
-        "nodemon": "^3.0.1"
-    }
+  "name": "community",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

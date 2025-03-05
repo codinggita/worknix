@@ -1,20 +1,13 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const communitySchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  isPrivate: {
-    type: Boolean,
-    default: false,
-  },
-});
+const CommunitySchema = new mongoose.Schema({
+  name: { type: String, required: true, unique: true },
+  description: { type: String, required: true },
+  profilePhoto: { type: String }, // Cloudinary URL
+  isPrivate: { type: Boolean, default: false },
+  admin: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+}, { timestamps: true });
 
-const Community = mongoose.model("Community", communitySchema);
-
-module.exports = Community;
+module.exports = mongoose.model('Community', CommunitySchema);
