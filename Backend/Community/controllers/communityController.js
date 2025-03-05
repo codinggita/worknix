@@ -118,25 +118,70 @@ exports.addMember = async (req, res) => {
   };
   
 
+// // Remove a member from a community (Admin only)
+// exports.removeMember = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { userId } = req.body;
+//     const community = await Community.findById(id);
+
+//     if (!community) return res.status(404).json({ message: 'Community not found' });
+
+//     // Only admin can remove a member
+//     if (req.user.id !== community.admin.toString()) {
+//       return res.status(403).json({ message: 'Only admin can remove members' });
+//     }
+
+//     community.members = community.members.filter(member => member.toString() !== userId);
+//     await community.save();
+
+//     res.json({ message: 'Member removed successfully' });
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+const mongoose = require('mongoose');
+const Community = require('../models/Community'); // Ensure correct model import
+
 // Remove a member from a community (Admin only)
 exports.removeMember = async (req, res) => {
   try {
     const { id } = req.params;
     const { userId } = req.body;
-    const community = await Community.findById(id);
 
-    if (!community) return res.status(404).json({ message: 'Community not found' });
+    console.log(`Request received to remove user ${userId} from community ${id}`);
+
+    const community = await Community.findById(id);
+    
+    if (!community) {
+      console.log(`Community with ID ${id} not found`);
+      return res.status(404).json({ message: 'Community not found' });
+    }
+
+    console.log(`Community found: ${community.name}, Admin: ${community.admin}`);
 
     // Only admin can remove a member
     if (req.user.id !== community.admin.toString()) {
+      console.log(`Unauthorized attempt: User ${req.user.id} tried to remove a member`);
       return res.status(403).json({ message: 'Only admin can remove members' });
     }
 
+    console.log(`Admin verified. Checking if user ${userId} is a member...`);
+
+    if (!community.members.includes(userId)) {
+      console.log(`User ${userId} is not a member of this community`);
+      return res.status(400).json({ message: 'User is not a member of this community' });
+    }
+
+    console.log(`Removing user ${userId} from the community...`);
     community.members = community.members.filter(member => member.toString() !== userId);
     await community.save();
 
+    console.log(`User ${userId} removed successfully from community ${id}`);
     res.json({ message: 'Member removed successfully' });
+
   } catch (error) {
+    console.error(`Error removing member: ${error.message}`);
     res.status(500).json({ message: error.message });
   }
 };
