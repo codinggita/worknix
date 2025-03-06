@@ -81,91 +81,89 @@
 // });
 
 // module.exports = router;
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Eye, EyeOff } from "lucide-react";
-import { AuthLayout } from "./AuthLayout";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+const express = require("express");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+const Company = require("../models/Company");
 
-export function SignupForm() {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    type: "employee", // Default selection
-  });
+const router = express.Router();
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
+// Generate Unique User ID
+const generateUserId = () => {
+  const year = new Date().getFullYear().toString().slice(-2); // Last two digits of year
+  const randomNum = Math.floor(1000 + Math.random() * 9000); // 4-digit random number
+  return `WE${year}${randomNum}`;
+};
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+// Generate Unique Company ID
+const generateCompanyId = () => {
+  const year = new Date().getFullYear().toString().slice(-2);
+  const randomNum = Math.floor(1000 + Math.random() * 9000);
+  return `WC${year}${randomNum}`;
+};
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setErrorMessage("");
+// Signup Route
+router.post("/signup", async (req, res) => {
+  try {
+    const { username, email, password, type } = req.body;
 
-    if (formData.password !== formData.confirmPassword) {
-      setErrorMessage("Passwords do not match.");
-      setIsLoading(false);
-      return;
+    // Check if user exists
+    const existingUser = await User.findOne({ email }) || await Company.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already in use." });
     }
 
-    try {
-      const response = await axios.post("https://worknix-2.onrender.com/signup", formData);
-
-      alert(`Signup successful! Your ID: ${response.data.userId || response.data.companyId}`);
-      navigate("/home");
-    } catch (error) {
-      setErrorMessage(error.response?.data?.message || "Signup failed. Please try again.");
-    } finally {
-      setIsLoading(false);
+    const hashedPassword = await bcrypt.hash(password, 10);
+    
+    if (type === "employee") {
+      const newUser = new User({
+        username,
+        email,
+        password: hashedPassword,
+        userId: generateUserId(),
+      });
+      await newUser.save();
+      return res.status(201).json({ message: "User created successfully", userId: newUser.userId });
+    } else {
+      const newCompany = new Company({
+        companyName: username,
+        email,
+        password: hashedPassword,
+        companyId: generateCompanyId(),
+      });
+      await newCompany.save();
+      return res.status(201).json({ message: "Company created successfully", companyId: newCompany.companyId });
     }
-  };
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
 
-  return (
-    <AuthLayout title="Create Account">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {errorMessage && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-red-600 bg-red-100 p-2 rounded-md">
-            {errorMessage}
-          </motion.div>
-        )}
+// Login Route
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    let user = await User.findOne({ email });
+    let company = await Company.findOne({ email });
 
-        <input type="text" name="username" placeholder="Username/Company Name" value={formData.username} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300" />
-        <input type="email" name="email" placeholder="Email Address" value={formData.email} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300" />
+    if (!user && !company) {
+      return res.status(400).json({ message: "Invalid email or password" });
+    }
 
-        <div className="relative">
-          <input type={showPassword ? "text" : "password"} name="password" placeholder="Password" value={formData.password} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300" />
-          <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
-            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-          </button>
-        </div>
+    const account = user || company;
+    const isPasswordValid = await bcrypt.compare(password, account.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: "Invalid email or password" });
+    }
 
-        <div className="relative">
-          <input type={showConfirmPassword ? "text" : "password"} name="confirmPassword" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300" />
-          <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
-            {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-          </button>
-        </div>
+    const token = jwt.sign({ id: account._id, type: user ? "employee" : "company" }, "secret", { expiresIn: "7d" });
 
-        <label className="block text-gray-700">Signup as:</label>
-        <select name="type" value={formData.type} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-300">
-          <option value="employee">Employee</option>
-          <option value="company">Company</option>
-        </select>
+    res.status(200).json({ message: "Login successful", token, userType: user ? "employee" : "company" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
 
-        <motion.button type="submit" className="w-full bg-[#008080] text-white py-3 rounded-lg hover:bg-teal-700 transition-all duration-300" disabled={isLoading}>
-          {isLoading ? <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : "Create Account"}
-        </motion.button>
-      </form>
-    </AuthLayout>
-  );
-}
+module.exports = router;
