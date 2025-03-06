@@ -1477,6 +1477,161 @@
 // }
 
 // export default LoginForm; // Default export here
+// import React, { useState, useContext } from "react";
+// import { motion } from "framer-motion";
+// import { Eye, EyeOff } from "lucide-react";
+// import { AuthLayout } from "./AuthLayout";
+// import { useNavigate } from "react-router-dom";
+// import { UserContext } from "../UserContext";
+// import axios from "axios";
+
+// function LoginForm() {
+//   const { setUsername } = useContext(UserContext);
+//   const [formData, setFormData] = useState({
+//     email: "",
+//     password: "",
+//     userType: "employee",
+//   });
+
+//   const [showPassword, setShowPassword] = useState(false);
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [errorMessage, setErrorMessage] = useState("");
+//   const navigate = useNavigate();
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setIsLoading(true);
+//     setErrorMessage("");
+
+//     try {
+//       const response = await axios.post(
+//         "https://worknix-2.onrender.com/auth/login",
+//         formData
+//       );
+
+//       const data = response.data;
+
+//       if (response.status === 200 && data.token) {
+//         console.log("Login successful:", data);
+
+//         // ✅ Extract user details from backend response
+//         const userId = data.userId; // Comes from backend
+//         const username = data.name || "User";
+
+//         // ✅ Store in localStorage
+//         localStorage.setItem("token", data.token);
+//         localStorage.setItem("userType", data.userType);
+//         localStorage.setItem("userId", userId);
+//         localStorage.setItem("username", username);
+//         setUsername(username);
+
+//         // ✅ Alert Notification with User ID
+//         alert(`Login successful! User ID: ${userId}`);
+
+//         // ✅ Redirect after alert
+//         navigate("/home");
+//       } else {
+//         setErrorMessage(data.message || "Login failed. Please try again.");
+//       }
+//     } catch (error) {
+//       setErrorMessage("An error occurred. Please try again.");
+//       console.error("Error logging in:", error);
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
+
+//   return (
+//     <AuthLayout title="Welcome Back">
+//       <form onSubmit={handleSubmit} className="space-y-6">
+//         {/* ✅ Error Message */}
+//         {errorMessage && (
+//           <motion.div
+//             initial={{ opacity: 0 }}
+//             animate={{ opacity: 1 }}
+//             className="text-red-600 bg-red-100 p-2 rounded-md"
+//           >
+//             {errorMessage}
+//           </motion.div>
+//         )}
+
+//         {/* User Type Selection */}
+//         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+//           <label className="block text-gray-700 font-medium mb-2">Select User Type</label>
+//           <select
+//             className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200"
+//             value={formData.userType}
+//             onChange={(e) => setFormData({ ...formData, userType: e.target.value })}
+//             required
+//           >
+//             <option value="employee">Employee</option>
+//             <option value="company">Company</option>
+//           </select>
+//         </motion.div>
+
+//         {/* Email Input */}
+//         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+//           <input
+//             type="email"
+//             placeholder="Email or Mobile Number"
+//             className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200"
+//             value={formData.email}
+//             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+//             required
+//           />
+//         </motion.div>
+
+//         {/* Password Input */}
+//         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="relative">
+//           <input
+//             type={showPassword ? "text" : "password"}
+//             placeholder="Password"
+//             className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200"
+//             value={formData.password}
+//             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+//             required
+//           />
+//           <button
+//             type="button"
+//             onClick={() => setShowPassword(!showPassword)}
+//             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+//           >
+//             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+//           </button>
+//         </motion.div>
+
+//         {/* Remember Me & Forgot Password */}
+//         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
+//           <label className="flex items-center">
+//             <input type="checkbox" className="rounded border-gray-300 text-teal-600 focus:ring-teal-500 transition-colors" />
+//             <span className="ml-2 text-sm text-gray-600">Remember me</span>
+//           </label>
+//           <a href="#" className="text-sm text-teal-600 hover:text-teal-500 transition-colors font-medium">
+//             Forgot Password?
+//           </a>
+//         </motion.div>
+
+//         {/* Submit Button */}
+//         <motion.button
+//           type="submit"
+//           className="w-full bg-[#008080] text-white py-3 rounded-lg hover:bg-teal-700 transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden"
+//           disabled={isLoading}
+//           whileTap={{ scale: 0.98 }}
+//           initial={{ opacity: 0, y: 20 }}
+//           animate={{ opacity: 1, y: 0 }}
+//         >
+//           {isLoading ? (
+//             <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+//           ) : (
+//             "Login"
+//           )}
+//         </motion.button>
+//       </form>
+//     </AuthLayout>
+//   );
+// }
+
+// export default LoginForm;
 import React, { useState, useContext } from "react";
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
@@ -1514,21 +1669,16 @@ function LoginForm() {
       if (response.status === 200 && data.token) {
         console.log("Login successful:", data);
 
-        // ✅ Extract user details from backend response
-        const userId = data.userId; // Comes from backend
+        const userId = data.userId;
         const username = data.name || "User";
 
-        // ✅ Store in localStorage
         localStorage.setItem("token", data.token);
         localStorage.setItem("userType", data.userType);
         localStorage.setItem("userId", userId);
         localStorage.setItem("username", username);
         setUsername(username);
 
-        // ✅ Alert Notification with User ID
         alert(`Login successful! User ID: ${userId}`);
-
-        // ✅ Redirect after alert
         navigate("/home");
       } else {
         setErrorMessage(data.message || "Login failed. Please try again.");
@@ -1544,18 +1694,12 @@ function LoginForm() {
   return (
     <AuthLayout title="Welcome Back">
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* ✅ Error Message */}
         {errorMessage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-red-600 bg-red-100 p-2 rounded-md"
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-red-600 bg-red-100 p-2 rounded-md">
             {errorMessage}
           </motion.div>
         )}
 
-        {/* User Type Selection */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <label className="block text-gray-700 font-medium mb-2">Select User Type</label>
           <select
@@ -1569,7 +1713,6 @@ function LoginForm() {
           </select>
         </motion.div>
 
-        {/* Email Input */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <input
             type="email"
@@ -1581,7 +1724,6 @@ function LoginForm() {
           />
         </motion.div>
 
-        {/* Password Input */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="relative">
           <input
             type={showPassword ? "text" : "password"}
@@ -1600,18 +1742,14 @@ function LoginForm() {
           </button>
         </motion.div>
 
-        {/* Remember Me & Forgot Password */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
           <label className="flex items-center">
             <input type="checkbox" className="rounded border-gray-300 text-teal-600 focus:ring-teal-500 transition-colors" />
             <span className="ml-2 text-sm text-gray-600">Remember me</span>
           </label>
-          <a href="#" className="text-sm text-teal-600 hover:text-teal-500 transition-colors font-medium">
-            Forgot Password?
-          </a>
+          <a href="#" className="text-sm text-teal-600 hover:text-teal-500 transition-colors font-medium">Forgot Password?</a>
         </motion.div>
 
-        {/* Submit Button */}
         <motion.button
           type="submit"
           className="w-full bg-[#008080] text-white py-3 rounded-lg hover:bg-teal-700 transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden"
@@ -1620,12 +1758,17 @@ function LoginForm() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          {isLoading ? (
-            <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-          ) : (
-            "Login"
-          )}
+          {isLoading ? <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : "Login"}
         </motion.button>
+
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mt-4">
+          <p className="text-gray-600">Don't have an account? 
+            <span 
+              onClick={() => navigate("/signup")} 
+              className="text-teal-600 font-medium cursor-pointer hover:underline"
+            >   Sign up</span>
+          </p>
+        </motion.div>
       </form>
     </AuthLayout>
   );
