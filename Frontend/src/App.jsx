@@ -585,7 +585,7 @@ function App() {
       <Router>
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<SignupForm />} />
+          <Route path="/" element={<LoginForm />} />
 
           {/* Protected Routes */}
           <Route
