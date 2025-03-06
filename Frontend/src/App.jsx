@@ -577,6 +577,7 @@ import Action from "./components/Action/Action";
 import WorkflowPage from "./components/Workflow/Workflow"; // Your Workflow component
 import ProtectedRoute from "./components/ProtectedRoute"; // Ensure the path is correct
 import Attendance from "./components/Attendance/Attendance"; // Your Attendance component
+import { SignupForm } from "./components/Auth/SignupForm";
 
 function App() {
   return (
@@ -584,7 +585,7 @@ function App() {
       <Router>
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<LoginForm />} />
+          <Route path="/" element={<SignupForm />} />
 
           {/* Protected Routes */}
           <Route
