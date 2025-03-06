@@ -612,7 +612,94 @@
 //       </form>
 //     </AuthLayout>
 //   );
+// // }
+// import React, { useState } from "react";
+// import { motion } from "framer-motion";
+// import { Eye, EyeOff } from "lucide-react";
+// import { AuthLayout } from "./AuthLayout";
+// import { useNavigate } from "react-router-dom";
+// import axios from "axios";
+
+// export function SignupForm() {
+//   const [formData, setFormData] = useState({
+//     username: "",
+//     email: "",
+//     password: "",
+//     confirmPassword: "",
+//     type: "employee", // Default selection
+//   });
+//   const [showPassword, setShowPassword] = useState(false);
+//   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [errorMessage, setErrorMessage] = useState("");
+//   const navigate = useNavigate();
+
+//   const handleChange = (e) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setIsLoading(true);
+//     setErrorMessage("");
+
+//     if (formData.password !== formData.confirmPassword) {
+//       setErrorMessage("Passwords do not match.");
+//       setIsLoading(false);
+//       return;
+//     }
+
+//     try {
+//       const response = await axios.post("http://localhost:5000/api/auth/signup", formData);
+//       alert(`Signup successful! Your ID: ${response.data.userId || response.data.companyId}`);
+//       navigate("/home");
+//     } catch (error) {
+//       setErrorMessage("Signup failed. Please try again.");
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
+
+//   return (
+//     <AuthLayout title="Create Account">
+//       <form onSubmit={handleSubmit} className="space-y-6">
+//         {errorMessage && (
+//           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-red-600 bg-red-100 p-2 rounded-md">
+//             {errorMessage}
+//           </motion.div>
+//         )}
+
+//         <input type="text" name="username" placeholder="Username/Company Name" value={formData.username} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300" />
+//         <input type="email" name="email" placeholder="Email Address" value={formData.email} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300" />
+
+//         <div className="relative">
+//           <input type={showPassword ? "text" : "password"} name="password" placeholder="Password" value={formData.password} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300" />
+//           <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
+//             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+//           </button>
+//         </div>
+
+//         <div className="relative">
+//           <input type={showConfirmPassword ? "text" : "password"} name="confirmPassword" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300" />
+//           <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
+//             {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+//           </button>
+//         </div>
+
+//         <label className="block text-gray-700">Signup as:</label>
+//         <select name="type" value={formData.type} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-300">
+//           <option value="employee">Employee</option>
+//           <option value="company">Company</option>
+//         </select>
+
+//         <motion.button type="submit" className="w-full bg-[#008080] text-white py-3 rounded-lg hover:bg-teal-700 transition-all duration-300" disabled={isLoading}>
+//           {isLoading ? <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : "Create Account"}
+//         </motion.button>
+//       </form>
+//     </AuthLayout>
+//   );
 // }
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
@@ -628,6 +715,7 @@ export function SignupForm() {
     confirmPassword: "",
     type: "employee", // Default selection
   });
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -650,11 +738,12 @@ export function SignupForm() {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/signup", formData);
+      const response = await axios.post("https://worknix-2.onrender.com/signup", formData);
+
       alert(`Signup successful! Your ID: ${response.data.userId || response.data.companyId}`);
       navigate("/home");
     } catch (error) {
-      setErrorMessage("Signup failed. Please try again.");
+      setErrorMessage(error.response?.data?.message || "Signup failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
