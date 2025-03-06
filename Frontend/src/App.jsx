@@ -578,7 +578,8 @@ import WorkflowPage from "./components/Workflow/Workflow"; // Your Workflow comp
 import ProtectedRoute from "./components/ProtectedRoute"; // Ensure the path is correct
 import Attendance from "./components/Attendance/Attendance"; // Your Attendance component
 import { SignupForm } from "./components/Auth/SignupForm";
-
+import ForgotPassword from "./components/Auth/ForgotPassword";
+import ResetPassword from "./components/Auth/ResetPassword";
 function App() {
   return (
     <UserProvider> {/* Wrap the entire app with UserProvider */}
@@ -587,6 +588,8 @@ function App() {
           {/* Public Routes */}
           <Route path="/" element={<LoginForm />} />
           <Route path="/Signup" element={<SignupForm />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+           <Route path="/reset-password/:token" element={<ResetPassword />} />
 
           {/* Protected Routes */}
           <Route
