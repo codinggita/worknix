@@ -13,7 +13,7 @@ const ForgotPassword = () => {
 
     try {
       const res = await axios.post(
-        "https://worknix-reset-password.onrender.com/api/password-reset",
+        "https://worknix-reset-password.onrender.com/api/password-reset/reset-password/:token",
         { email }
       );
       setMessage(res.data.message);
